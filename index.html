@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edge Camouflage — Researcher Resources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0b;
+    --surface: #111410;
+    --surface2: #181b16;
+    --border: #2a2e27;
+    --accent: #4dff91;
+    --accent2: #b8ff6e;
+    --accent-dim: rgba(77,255,145,0.12);
+    --red: #ff4d6d;
+    --text: #e8ede4;
+    --muted: #7a8475;
+    --card-dark: #0f1310;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+    background: rgba(10,12,11,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; flex-shrink: 0;
+  }
+  .logo-mark { width: 38px; height: 38px; flex-shrink: 0; }
+  .logo-mark svg { width: 100%; height: 100%; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-name {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text);
+  }
+  .logo-sub {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    color: var(--accent); letter-spacing: 0.2em; margin-top: 2px;
+  }
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links a {
+    font-size: 13.5px; color: var(--muted); text-decoration: none;
+    padding: 6px 14px; border-radius: 4px;
+    transition: color 0.2s, background 0.2s; letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface2); }
+  .nav-links a.dd::after { content: '▾'; font-size: 10px; color: var(--muted); }
+  .nav-cta {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--accent); color: #000; padding: 10px 22px;
+    border-radius: 4px; text-decoration: none;
+    transition: background 0.2s, transform 0.15s; flex-shrink: 0;
+  }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    position: relative; overflow: hidden; padding: 120px 48px 80px;
+  }
+  .hero-bg { position: absolute; inset: 0; background: var(--bg); z-index: 0; }
+  .hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(77,255,145,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(77,255,145,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(77,255,145,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 40% at 20% 80%, rgba(0,0,0,0.6) 0%, transparent 80%);
+  }
+  .camo-shape {
+    position: absolute; border-radius: 50%;
+    filter: blur(60px); opacity: 0.08;
+    animation: drift 20s ease-in-out infinite;
+  }
+  .camo-shape:nth-child(1) { width: 500px; height: 400px; background: #4dff91; top: 10%; right: 5%; }
+  .camo-shape:nth-child(2) { width: 300px; height: 350px; background: #b8ff6e; top: 50%; right: 20%; animation-delay: -7s; }
+  .camo-shape:nth-child(3) { width: 250px; height: 200px; background: #4dff91; bottom: 10%; right: 35%; animation-delay: -14s; }
+  @keyframes drift {
+    0%,100%{transform:translate(0,0)scale(1)}
+    33%{transform:translate(-20px,30px)scale(1.05)}
+    66%{transform:translate(15px,-20px)scale(0.95)}
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 680px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-dim);
+    border: 1px solid rgba(77,255,145,0.25);
+    padding: 6px 14px; border-radius: 2px; margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge .dot { width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite; }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+  .hero-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(42px,6vw,76px); line-height: 1.0;
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-title em { font-style: normal; color: var(--accent); }
+  .hero-desc {
+    font-size: 18px; color: var(--muted); line-height: 1.7;
+    max-width: 520px; margin-bottom: 40px; font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions { display:flex;align-items:center;gap:16px; animation:fadeUp 0.6s 0.3s ease both; }
+  .btn-primary {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--accent); color: #000; padding: 14px 32px;
+    border-radius: 3px; text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(77,255,145,0.2);
+  }
+  .btn-primary:hover { background:var(--accent2);transform:translateY(-2px);box-shadow:0 0 50px rgba(77,255,145,0.35); }
+  .btn-ghost {
+    font-size: 14px; color: var(--muted); text-decoration: none;
+    padding: 14px 24px; border: 1px solid var(--border); border-radius: 3px;
+    transition: color 0.2s, border-color 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-ghost:hover { color:var(--text);border-color:var(--accent); }
+  .hero-graphic {
+    position: absolute; right: -40px; top: 50%;
+    transform: translateY(-50%); z-index: 1; width: 520px;
+    opacity: 0.9; animation: fadeIn 1s 0.4s ease both;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* MIT STRIPE */
+  .mit-stripe {
+    background: var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    padding: 18px 48px; display:flex; align-items:center; gap:32px; overflow:hidden;
+  }
+  .mit-label { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0; }
+  .mit-divider { width:1px;height:24px;background:var(--border);flex-shrink:0; }
+  .mit-tags { display:flex;gap:24px;align-items:center;overflow:hidden; }
+  .mit-tag { font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:8px; }
+  .mit-tag::before { content:'//';color:var(--accent); }
+
+  /* SECTIONS */
+  section { padding: 96px 48px; }
+  .section-label {
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  }
+  .section-label::before { content:'';display:block;width:24px;height:1px;background:var(--accent); }
+  .section-title {
+    font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);
+    line-height:1.1;letter-spacing:-0.02em;margin-bottom:16px;
+  }
+  .section-desc { font-size:17px;color:var(--muted);max-width:540px;font-weight:300;margin-bottom:56px; }
+
+  /* TABS */
+  .tabs-section { background: var(--surface); }
+  .tab-bar {
+    display:flex;gap:0;border-bottom:1px solid var(--border);
+    margin-bottom:48px;overflow-x:auto;
+  }
+  .tab-bar::-webkit-scrollbar { display:none; }
+  .tab-btn {
+    font-family:'DM Sans',sans-serif;font-size:14px;color:var(--muted);
+    padding:14px 24px;background:transparent;border:none;
+    border-bottom:2px solid transparent;cursor:none;
+    transition:color 0.2s,border-color 0.2s;white-space:nowrap;letter-spacing:0.02em;margin-bottom:-1px;
+  }
+  .tab-btn:hover { color:var(--text); }
+  .tab-btn.active { color:var(--accent);border-bottom-color:var(--accent);font-weight:500; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block;animation:fadeUp 0.3s ease both; }
+
+  /* CARDS */
+  .cards-grid {
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;
+  }
+  .card {
+    background:var(--card-dark);padding:32px;
+    transition:background 0.2s;position:relative;overflow:hidden;
+  }
+  .card:hover { background:var(--surface2); }
+  .card::before {
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease;
+  }
+  .card:hover::before { transform:scaleX(1); }
+  .card.featured { background:linear-gradient(135deg,#0d1610 0%,#111c14 100%); }
+  .card.featured::after {
+    content:'FEATURED';position:absolute;top:18px;right:18px;
+    font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;
+    color:var(--accent);background:var(--accent-dim);border:1px solid rgba(77,255,145,0.3);
+    padding:3px 8px;border-radius:2px;
+  }
+  .card-icon { width:44px;height:44px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:20px; }
+  .card-tag { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px; }
+  .card-title { font-family:'Syne',sans-serif;font-weight:700;font-size:19px;margin-bottom:10px;line-height:1.25; }
+  .card-desc { font-size:14px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:20px; }
+  .card-link {
+    font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+    text-decoration:none;letter-spacing:0.08em;display:inline-flex;align-items:center;gap:6px;transition:gap 0.2s;
+  }
+  .card-link:hover { gap:10px; }
+  .card-link::after { content:'→'; }
+
+  /* RESEARCH */
+  .research-section { background:var(--bg); }
+  .research-grid { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+  .research-item {
+    background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    padding:28px 32px;display:flex;align-items:flex-start;gap:20px;
+    transition:border-color 0.2s,transform 0.2s;
+  }
+  .research-item:hover { border-color:var(--accent);transform:translateX(4px); }
+  .research-num { font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--border);line-height:1;flex-shrink:0;width:48px;transition:color 0.2s; }
+  .research-item:hover .research-num { color:var(--accent-dim); }
+  .research-title { font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:6px; }
+  .research-desc { font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:300; }
+
+  /* STATS */
+  .stats-strip {
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding:0;display:grid;grid-template-columns:repeat(4,1fr);
+    gap:1px;background-color:var(--border);
+  }
+  .stat-item { background:var(--surface);padding:52px 32px;text-align:center; }
+  .stat-num { font-family:'Syne',sans-serif;font-weight:800;font-size:48px;line-height:1;color:var(--accent);margin-bottom:8px; }
+  .stat-label { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted); }
+
+  /* COMMUNITY */
+  .community-section { background:var(--surface2); }
+  .community-cards { display:grid;grid-template-columns:repeat(3,1fr);gap:20px; }
+  .community-card { background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:36px 28px;transition:border-color 0.2s; }
+  .community-card:hover { border-color:var(--accent); }
+  .community-icon { font-size:28px;margin-bottom:16px;display:block; }
+  .community-title { font-family:'Syne',sans-serif;font-weight:700;font-size:20px;margin-bottom:10px; }
+  .community-desc { font-size:14px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:20px; }
+  .community-link {
+    font-size:13px;color:var(--accent);text-decoration:none;
+    border:1px solid rgba(77,255,145,0.3);padding:8px 18px;border-radius:3px;display:inline-block;transition:background 0.2s;
+  }
+  .community-link:hover { background:var(--accent-dim); }
+
+  /* CTA */
+  .cta-banner { background:var(--bg);padding:100px 48px;text-align:center;position:relative;overflow:hidden; }
+  .cta-banner::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(77,255,145,0.07) 0%,transparent 70%); }
+  .cta-banner .section-label { justify-content:center; }
+  .cta-banner .section-title { max-width:600px;margin:0 auto 20px; }
+  .cta-banner .section-desc { margin:0 auto 40px;text-align:center; }
+  .cta-actions { display:flex;align-items:center;justify-content:center;gap:16px; }
+
+  /* FOOTER */
+  footer { background:var(--surface);border-top:1px solid var(--border);padding:48px 48px 32px; }
+  .footer-grid { display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px; }
+  .footer-brand .logo { margin-bottom:16px;display:inline-flex; }
+  .footer-brand p { font-size:13px;color:var(--muted);line-height:1.7;font-weight:300;max-width:260px; }
+  .footer-col h4 { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px; }
+  .footer-col ul { list-style:none; }
+  .footer-col ul li { margin-bottom:8px; }
+  .footer-col ul a { font-size:13.5px;color:var(--muted);text-decoration:none;transition:color 0.2s; }
+  .footer-col ul a:hover { color:var(--text); }
+  .footer-bottom {
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:24px;border-top:1px solid var(--border);
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--muted);
+  }
+  .footer-bottom a { color:var(--accent);text-decoration:none; }
+  .mit-badge {
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--border);padding:6px 10px;border-radius:2px;margin-top:16px;
+  }
+  .mit-badge span { color:var(--red);font-size:14px; }
+
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="19,2 34,10 34,28 19,36 4,28 4,10" fill="#0f1310" stroke="#2a2e27" stroke-width="1"/>
+        <polygon points="19,2 27,6 26,14 19,12 12,14 11,6" fill="#1a2e1c" opacity="0.9"/>
+        <polygon points="4,10 12,14 11,22 4,20" fill="#162818" opacity="0.9"/>
+        <polygon points="34,10 26,14 27,22 34,20" fill="#1e3020" opacity="0.8"/>
+        <polygon points="4,28 11,22 19,26 12,34" fill="#142216" opacity="0.9"/>
+        <polygon points="34,28 27,22 19,26 26,34" fill="#1a2a1a" opacity="0.8"/>
+        <polygon points="19,26 11,22 12,14 19,12 26,14 27,22" fill="#0d1a0f" opacity="0.9"/>
+        <text x="10" y="23" font-family="Syne, sans-serif" font-weight="800" font-size="11" fill="#4dff91" letter-spacing="-1">EC</text>
+        <line x1="19" y1="2" x2="19" y2="7" stroke="#4dff91" stroke-width="1.5" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">Edge Camouflage</span>
+      <span class="logo-sub">MIT · Adversarial AI</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="dd">Research</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#" class="dd">Use Cases</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#" class="dd">About</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Request Access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="camo-shape"></div>
+    <div class="camo-shape"></div>
+    <div class="camo-shape"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span>Researcher Resources — Open Access</div>
+    <h1 class="hero-title">Edge Camouflage<br><em>Researcher</em><br>Hub</h1>
+    <p class="hero-desc">Everything you need to build, test, and deploy adversarial attack research — from theoretical foundations to production-grade red-teaming tools. Rooted at MIT. Open to the world.</p>
+    <div class="hero-actions">
+      <a href="#resources" class="btn-primary">View Resources</a>
+      <a href="#" class="btn-ghost">Read the Paper →</a>
+    </div>
+  </div>
+  <div class="hero-graphic">
+    <svg viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(60,240)">
+        <polygon points="200,0 400,80 400,120 200,200 0,120 0,80" fill="#0a1a0d" stroke="#2a2e27" stroke-width="1"/>
+        <polygon points="200,0 400,80 200,160 0,80" fill="#0f2012" stroke="#2a2e27" stroke-width="0.5"/>
+        <polygon points="0,80 0,120 200,200 200,160" fill="#0a1508" stroke="#2a2e27" stroke-width="0.5"/>
+        <polygon points="400,80 400,120 200,200 200,160" fill="#0d1c0f" stroke="#2a2e27" stroke-width="0.5"/>
+        <polygon points="200,0 280,32 260,80 180,60 120,40 150,10" fill="#142614" opacity="0.5"/>
+        <text x="170" y="100" fill="#4dff91" font-family="Space Mono" font-size="16" opacity="0.9">APIs</text>
+      </g>
+      <g transform="translate(60,150)">
+        <polygon points="200,0 400,80 400,120 200,200 0,120 0,80" fill="#0c1e10" stroke="#3a4035" stroke-width="1"/>
+        <polygon points="200,0 400,80 200,160 0,80" fill="#122416" stroke="#3a4035" stroke-width="0.5"/>
+        <polygon points="0,80 0,120 200,200 200,160" fill="#0e1a0c" stroke="#3a4035" stroke-width="0.5"/>
+        <polygon points="400,80 400,120 200,200 200,160" fill="#112010" stroke="#3a4035" stroke-width="0.5"/>
+        <polygon points="200,0 300,40 280,100 200,80 100,60" fill="#1c3018" opacity="0.5"/>
+        <text x="165" y="100" fill="#4dff91" font-family="Space Mono" font-size="16" opacity="0.9">SDKs</text>
+      </g>
+      <g transform="translate(60,50)">
+        <polygon points="200,0 400,80 400,120 200,200 0,120 0,80" fill="#142616" stroke="#4dff9150" stroke-width="1.5"/>
+        <polygon points="200,0 400,80 200,160 0,80" fill="#1a2e1c" stroke="#4dff9140" stroke-width="0.5"/>
+        <polygon points="0,80 0,120 200,200 200,160" fill="#142014" stroke="#4dff9130" stroke-width="0.5"/>
+        <polygon points="400,80 400,120 200,200 200,160" fill="#182818" stroke="#4dff9130" stroke-width="0.5"/>
+        <line x1="80" y1="60" x2="320" y2="140" stroke="#4dff91" stroke-width="0.5" opacity="0.3"/>
+        <text x="90" y="100" fill="#4dff91" font-family="Space Mono" font-size="15" opacity="1">ATTACK MODELS</text>
+        <circle cx="180" cy="60" r="3" fill="#4dff91" opacity="0.6"/>
+        <circle cx="220" cy="70" r="2" fill="#4dff91" opacity="0.4"/>
+        <circle cx="260" cy="55" r="3" fill="#b8ff6e" opacity="0.5"/>
+        <circle cx="300" cy="80" r="2" fill="#4dff91" opacity="0.3"/>
+      </g>
+      <line x1="60" y1="170" x2="60" y2="230" stroke="#4dff91" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+      <line x1="460" y1="170" x2="460" y2="230" stroke="#4dff91" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+      <line x1="60" y1="270" x2="60" y2="320" stroke="#4dff91" stroke-width="1" opacity="0.2" stroke-dasharray="4,4"/>
+      <line x1="460" y1="270" x2="460" y2="320" stroke="#4dff91" stroke-width="1" opacity="0.2" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+</section>
+
+<div class="mit-stripe">
+  <span class="mit-label">Rooted at MIT</span>
+  <div class="mit-divider"></div>
+  <div class="mit-tags">
+    <span class="mit-tag">CSAIL Affiliated</span>
+    <span class="mit-tag">DARPA Collaboration</span>
+    <span class="mit-tag">Peer-Reviewed Research</span>
+    <span class="mit-tag">Open Source Tooling</span>
+    <span class="mit-tag">Red Team Certified</span>
+  </div>
+</div>
+
+<!-- TABS SECTION -->
+<section class="tabs-section" id="resources">
+  <div class="section-label">Resources</div>
+  <h2 class="section-title">Ready to start<br>researching adversarial AI?</h2>
+  <p class="section-desc">From foundational papers to deployment-ready attack libraries — everything indexed and open to credentialed researchers.</p>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="quickstart">Quickstart</button>
+    <button class="tab-btn" data-tab="papers">Papers &amp; Preprints</button>
+    <button class="tab-btn" data-tab="toolkits">Attack Toolkits</button>
+    <button class="tab-btn" data-tab="datasets">Datasets</button>
+    <button class="tab-btn" data-tab="certification">Certification</button>
+    <button class="tab-btn" data-tab="api">API Reference</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-quickstart">
+    <div class="cards-grid">
+      <div class="card featured">
+        <div class="card-icon">⚡</div>
+        <div class="card-tag">Quickstart</div>
+        <div class="card-title">5-Minute Attack Setup</div>
+        <div class="card-desc">Deploy your first adversarial perturbation against a production image classifier in under five minutes. LocalNet to cloud in one command.</div>
+        <a href="#" class="card-link">Get started</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧩</div>
+        <div class="card-tag">Guided</div>
+        <div class="card-title">Research Quests</div>
+        <div class="card-desc">Step-by-step quests covering EC architecture, perturbation theory, and black-box attack construction through the EC Core Academy.</div>
+        <a href="#" class="card-link">Start learning</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎓</div>
+        <div class="card-tag">Certification</div>
+        <div class="card-title">EC Adversarial Certification</div>
+        <div class="card-desc">Enroll in our online training and certification program, co-developed with MIT CSAIL, to certify as an adversarial AI practitioner.</div>
+        <a href="#" class="card-link">Enroll now</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">📖</div>
+        <div class="card-tag">Documentation</div>
+        <div class="card-title">Full Documentation</div>
+        <div class="card-desc">Comprehensive technical docs covering every module: perturbation generation, evasion strategies, transferability analysis, and defenses.</div>
+        <a href="#" class="card-link">Read docs</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <div class="card-tag">Sandbox</div>
+        <div class="card-title">Interactive Lab</div>
+        <div class="card-desc">Run live adversarial experiments in the browser against hosted models. No setup required — results in real time.</div>
+        <a href="#" class="card-link">Open lab</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛠️</div>
+        <div class="card-tag">SDK</div>
+        <div class="card-title">Python &amp; JS SDKs</div>
+        <div class="card-desc">First-class SDKs for Python (PyTorch, JAX) and JavaScript/TypeScript. Install in seconds and start generating adversarial examples.</div>
+        <a href="#" class="card-link">View SDK</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-papers">
+    <div class="cards-grid">
+      <div class="card featured">
+        <div class="card-icon">📄</div>
+        <div class="card-tag">Flagship Paper · 2024</div>
+        <div class="card-title">Edge Camouflage: Universal Adversarial Perturbations at Scale</div>
+        <div class="card-desc">Our seminal paper introducing the EC framework for geometry-aware adversarial patches across vision models. ICLR 2024 Spotlight.</div>
+        <a href="#" class="card-link">Read paper</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧪</div>
+        <div class="card-tag">Preprint · 2025</div>
+        <div class="card-title">Black-Box Camouflage: Query-Efficient Attacks Without Model Access</div>
+        <div class="card-desc">Extending EC to strict black-box settings using score-only queries and surrogate gradient estimation.</div>
+        <a href="#" class="card-link">Read preprint</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-tag">Defense · 2024</div>
+        <div class="card-title">Against Camouflage: Certified Defenses via Randomized Smoothing</div>
+        <div class="card-desc">Counter-research on robustness certification against the EC family of attacks. Published at NeurIPS 2024.</div>
+        <a href="#" class="card-link">Read paper</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <div class="card-tag">Survey · 2025</div>
+        <div class="card-title">Adversarial ML Landscape: State of the Field 2025</div>
+        <div class="card-desc">Annual survey cataloging 400+ papers across attacks, defenses, and evaluation methodologies.</div>
+        <a href="#" class="card-link">Read survey</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <div class="card-tag">Applied · 2024</div>
+        <div class="card-title">Physical-World Attacks on Autonomous Driving Stacks</div>
+        <div class="card-desc">Empirical study of EC patches printed on physical objects to fool LiDAR-camera fusion models in AV pipelines.</div>
+        <a href="#" class="card-link">Read paper</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <div class="card-tag">Preprint · 2025</div>
+        <div class="card-title">LLM Red-Teaming with EC Linguistic Perturbations</div>
+        <div class="card-desc">Extending adversarial perturbation theory to large language models through semantic-preserving token substitution attacks.</div>
+        <a href="#" class="card-link">Read preprint</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-toolkits">
+    <div class="cards-grid">
+      <div class="card featured">
+        <div class="card-icon">🗡️</div>
+        <div class="card-tag">Core Tool</div>
+        <div class="card-title">EC-Attack Library</div>
+        <div class="card-desc">The flagship open-source library for generating, evaluating, and deploying adversarial examples across 50+ vision and language model architectures.</div>
+        <a href="#" class="card-link">View on GitHub</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <div class="card-tag">Red Teaming</div>
+        <div class="card-title">EC Red Team Suite</div>
+        <div class="card-desc">End-to-end red-teaming toolkit for AI systems. Covers jailbreak generation, adversarial prompt injection, and robustness benchmarking.</div>
+        <a href="#" class="card-link">Explore suite</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🩺</div>
+        <div class="card-tag">Evaluation</div>
+        <div class="card-title">RobustBench Integration</div>
+        <div class="card-desc">Native integration with RobustBench for standardized evaluation. Compare your model against 500+ certified defenses.</div>
+        <a href="#" class="card-link">Run benchmarks</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <div class="card-tag">Vision</div>
+        <div class="card-title">PatchCraft</div>
+        <div class="card-desc">Generate physically-realizable adversarial patches with texture and geometry constraints. Export to SVG, PDF, or print-ready formats.</div>
+        <a href="#" class="card-link">Try PatchCraft</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <div class="card-tag">Analysis</div>
+        <div class="card-title">TransferScope</div>
+        <div class="card-desc">Measure cross-model transferability of adversarial examples across architecture families, training regimes, and data distributions.</div>
+        <a href="#" class="card-link">Analyze transfer</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <div class="card-tag">Automation</div>
+        <div class="card-title">EC-CLI</div>
+        <div class="card-desc">Command-line interface for scripting adversarial workflows, batch attack generation, and CI/CD integration for AI safety pipelines.</div>
+        <a href="#" class="card-link">Install CLI</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-datasets">
+    <div class="cards-grid">
+      <div class="card featured">
+        <div class="card-icon">🗃️</div>
+        <div class="card-tag">Flagship Dataset</div>
+        <div class="card-title">AdvImageNet-EC</div>
+        <div class="card-desc">1.2M adversarial images across 1000 ImageNet classes. Includes perturbation budgets, attack types, and transferability scores.</div>
+        <a href="#" class="card-link">Access dataset</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗣️</div>
+        <div class="card-tag">NLP</div>
+        <div class="card-title">AdversarialGLUE-EC</div>
+        <div class="card-desc">Adversarial NLP evaluation suite extending GLUE with EC linguistic perturbations across 8 tasks and 12 transformer models.</div>
+        <a href="#" class="card-link">Download</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚗</div>
+        <div class="card-tag">Autonomy</div>
+        <div class="card-title">PhysAdv-Drive</div>
+        <div class="card-desc">40K frames of physical-world adversarial patch deployments against four autonomous vehicle sensor configurations.</div>
+        <a href="#" class="card-link">Download</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <div class="card-tag">LLMs</div>
+        <div class="card-title">JailbreakBench-EC</div>
+        <div class="card-desc">500 adversarial prompts spanning 10 harm categories, tested against 20 instruction-tuned LLMs.</div>
+        <a href="#" class="card-link">Access dataset</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-tag">Defense</div>
+        <div class="card-title">CertifiedRobustness-100K</div>
+        <div class="card-desc">100K samples with certified robustness radii computed via randomized smoothing. Pairs with EC-Attack for verified defense evaluation.</div>
+        <a href="#" class="card-link">Download</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌡️</div>
+        <div class="card-tag">Sensor</div>
+        <div class="card-title">MultiModal-Adv Dataset</div>
+        <div class="card-desc">Cross-modal adversarial examples attacking vision-language models with synchronized image-text perturbations.</div>
+        <a href="#" class="card-link">Access dataset</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-certification">
+    <div class="cards-grid">
+      <div class="card featured">
+        <div class="card-icon">🏅</div>
+        <div class="card-tag">MIT Co-Certified</div>
+        <div class="card-title">Adversarial AI Practitioner (AAP)</div>
+        <div class="card-desc">The flagship EC certification co-developed with MIT CSAIL. Six modules covering attack theory, implementation, evaluation, and responsible disclosure.</div>
+        <a href="#" class="card-link">Enroll now</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔐</div>
+        <div class="card-tag">Specialist</div>
+        <div class="card-title">Red Team Operator (RTO)</div>
+        <div class="card-desc">Hands-on practitioner track focused on real-world red-teaming of deployed AI systems. Includes live capstone challenges.</div>
+        <a href="#" class="card-link">Learn more</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-tag">Foundational</div>
+        <div class="card-title">EC Foundations Certificate</div>
+        <div class="card-desc">Self-paced intro covering perturbation theory, attack taxonomies, and evaluation methodology. Ideal entry point for new researchers.</div>
+        <a href="#" class="card-link">Start free</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏛️</div>
+        <div class="card-tag">Academic</div>
+        <div class="card-title">MIT Course Credit Integration</div>
+        <div class="card-desc">EC certification modules are recognized for credit in MIT's 6.S978 (Adversarial Machine Learning) course.</div>
+        <a href="#" class="card-link">Learn more</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <div class="card-tag">Enterprise</div>
+        <div class="card-title">Team Certification Programs</div>
+        <div class="card-desc">Bulk enrollment for AI safety teams, research labs, and enterprises. Custom modules and dedicated instructor support.</div>
+        <a href="#" class="card-link">Contact us</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚖️</div>
+        <div class="card-tag">Ethics</div>
+        <div class="card-title">Responsible Disclosure Track</div>
+        <div class="card-desc">Ethics and policy certification covering CVD processes, coordinated disclosure, legal frameworks, and dual-use considerations.</div>
+        <a href="#" class="card-link">View track</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-api">
+    <div class="cards-grid">
+      <div class="card featured">
+        <div class="card-icon">🔌</div>
+        <div class="card-tag">REST API</div>
+        <div class="card-title">EC Attack API v2</div>
+        <div class="card-desc">Production REST API for generating adversarial examples on-demand. Supports FGSM, PGD, C&amp;W, AutoAttack, and custom gradient-based attacks. 99.9% SLA.</div>
+        <a href="#" class="card-link">API docs</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧬</div>
+        <div class="card-tag">Python SDK</div>
+        <div class="card-title">ec-attack Python Package</div>
+        <div class="card-desc">Install with pip. Natively supports PyTorch, JAX, and TensorFlow. Auto-batching, GPU acceleration, and async execution built in.</div>
+        <a href="#" class="card-link">PyPI docs</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🟨</div>
+        <div class="card-tag">JS/TS SDK</div>
+        <div class="card-title">@edge-camouflage/core</div>
+        <div class="card-desc">Full-featured TypeScript SDK for browser and Node.js environments. WebGL-accelerated perturbation generation for real-time applications.</div>
+        <a href="#" class="card-link">npm docs</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <div class="card-tag">Webhooks</div>
+        <div class="card-title">Async Attack Webhooks</div>
+        <div class="card-desc">Subscribe to attack completion events, transferability scores, and model evaluation results via configurable webhook endpoints.</div>
+        <a href="#" class="card-link">Webhook guide</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗝️</div>
+        <div class="card-tag">Auth</div>
+        <div class="card-title">API Key Management</div>
+        <div class="card-desc">Research-grade API keys with per-key rate limits, usage analytics, and org-level access controls. Free tier for credentialed researchers.</div>
+        <a href="#" class="card-link">Manage keys</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-tag">Analytics</div>
+        <div class="card-title">Usage &amp; Audit Dashboard</div>
+        <div class="card-desc">Real-time dashboard tracking API usage, attack success rates, latency, and audit logs for compliance and reproducibility.</div>
+        <a href="#" class="card-link">Open dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item"><div class="stat-num">400+</div><div class="stat-label">Research Papers</div></div>
+  <div class="stat-item"><div class="stat-num">12K</div><div class="stat-label">Active Researchers</div></div>
+  <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Model Architectures</div></div>
+  <div class="stat-item"><div class="stat-num">97.4%</div><div class="stat-label">Attack Success Rate</div></div>
+</div>
+
+<!-- RESEARCH AREAS -->
+<section class="research-section" id="research">
+  <div class="section-label">Research Areas</div>
+  <h2 class="section-title">What we study</h2>
+  <p class="section-desc">Core research pillars driving the Edge Camouflage agenda at MIT and beyond.</p>
+  <div class="research-grid">
+    <div class="research-item">
+      <div class="research-num">01</div>
+      <div>
+        <div class="research-title">Evasion Attacks on Vision Models</div>
+        <div class="research-desc">Generating imperceptible perturbations that fool state-of-the-art image classifiers, detectors, and segmentation models under white-box and black-box constraints.</div>
+      </div>
+    </div>
+    <div class="research-item">
+      <div class="research-num">02</div>
+      <div>
+        <div class="research-title">Physical-World Adversarial Patches</div>
+        <div class="research-desc">Designing printed adversarial patches that persist under real-world conditions: lighting variation, viewpoint changes, and compression artifacts.</div>
+      </div>
+    </div>
+    <div class="research-item">
+      <div class="research-num">03</div>
+      <div>
+        <div class="research-title">LLM Red-Teaming &amp; Jailbreaking</div>
+        <div class="research-desc">Automated adversarial prompt generation to expose safety misalignments in instruction-tuned language models at scale.</div>
+      </div>
+    </div>
+    <div class="research-item">
+      <div class="research-num">04</div>
+      <div>
+        <div class="research-title">Transferability &amp; Black-Box Attacks</div>
+        <div class="research-desc">Exploiting the phenomenon by which adversarial examples crafted for one model transfer to fool others, enabling attacks without model access.</div>
+      </div>
+    </div>
+    <div class="research-item">
+      <div class="research-num">05</div>
+      <div>
+        <div class="research-title">Certified Robustness &amp; Defenses</div>
+        <div class="research-desc">Developing provably robust defenses using randomized smoothing, adversarial training, and formal verification methods.</div>
+      </div>
+    </div>
+    <div class="research-item">
+      <div class="research-num">06</div>
+      <div>
+        <div class="research-title">Multimodal &amp; Cross-Modal Attacks</div>
+        <div class="research-desc">Adversarial attacks on vision-language systems (CLIP, LLaVA, GPT-4V) using synchronized perturbations across image and text modalities.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community-section" id="community">
+  <div class="section-label">Community</div>
+  <h2 class="section-title">Join the research<br>community</h2>
+  <p class="section-desc">Connect with adversarial ML researchers, get help with EC tools, and contribute to the frontier.</p>
+  <div class="community-cards">
+    <div class="community-card">
+      <span class="community-icon">💬</span>
+      <div class="community-title">Discord Server</div>
+      <div class="community-desc">12,000+ researchers discussing attacks, defenses, papers, and EC tooling. Channel-specific help desks for each EC module.</div>
+      <a href="#" class="community-link">Join Discord</a>
+    </div>
+    <div class="community-card">
+      <span class="community-icon">🔭</span>
+      <div class="community-title">GitHub Organization</div>
+      <div class="community-desc">All EC tools are open source under MIT license. Browse repos, file issues, and contribute PRs. 8K+ stars across the org.</div>
+      <a href="#" class="community-link">View on GitHub</a>
+    </div>
+    <div class="community-card">
+      <span class="community-icon">📬</span>
+      <div class="community-title">Research Digest</div>
+      <div class="community-desc">Weekly email digest of the latest adversarial ML papers, EC releases, and community highlights. Curated by MIT researchers.</div>
+      <a href="#" class="community-link">Subscribe</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="section-label">Get started</div>
+  <h2 class="section-title">Start your adversarial<br>research today</h2>
+  <p class="section-desc">Request access to the full EC platform — free for academic researchers affiliated with verified institutions.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-primary">Request Access</a>
+    <a href="#" class="btn-ghost">Read the docs →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="19,2 34,10 34,28 19,36 4,28 4,10" fill="#0f1310" stroke="#2a2e27" stroke-width="1"/>
+            <polygon points="19,2 27,6 26,14 19,12 12,14 11,6" fill="#1a2e1c" opacity="0.9"/>
+            <polygon points="4,10 12,14 11,22 4,20" fill="#162818" opacity="0.9"/>
+            <polygon points="34,10 26,14 27,22 34,20" fill="#1e3020" opacity="0.8"/>
+            <polygon points="4,28 11,22 19,26 12,34" fill="#142216" opacity="0.9"/>
+            <polygon points="34,28 27,22 19,26 26,34" fill="#1a2a1a" opacity="0.8"/>
+            <polygon points="19,26 11,22 12,14 19,12 26,14 27,22" fill="#0d1a0f" opacity="0.9"/>
+            <text x="10" y="23" font-family="Syne, sans-serif" font-weight="800" font-size="11" fill="#4dff91" letter-spacing="-1">EC</text>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Edge Camouflage</span>
+          <span class="logo-sub">MIT · Adversarial AI</span>
+        </div>
+      </a>
+      <p>Adversarial attack research rooted at MIT CSAIL. Building open infrastructure for trustworthy, robust AI systems.</p>
+      <div class="mit-badge"><span>◆</span> MIT CSAIL Affiliated · Cambridge, MA</div>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="#">Attack Library</a></li>
+        <li><a href="#">Red Team Suite</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">Python SDK</a></li>
+        <li><a href="#">JS/TS SDK</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Research</h4>
+      <ul>
+        <li><a href="#">Papers</a></li>
+        <li><a href="#">Datasets</a></li>
+        <li><a href="#">Benchmarks</a></li>
+        <li><a href="#">Research Blog</a></li>
+        <li><a href="#">Lab Publications</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">MIT Partnership</a></li>
+        <li><a href="#">Ethics Policy</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Edge Camouflage Inc. · MIT CSAIL Partnership · Cambridge, MA 02139</span>
+    <div style="display:flex;gap:20px;">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Responsible Disclosure</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='48px';ring.style.height='48px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});
+},{threshold:0.1});
+document.querySelectorAll('.card,.research-item,.community-card,.stat-item').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(16px)';
+  el.style.transition='opacity 0.5s ease,transform 0.5s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
