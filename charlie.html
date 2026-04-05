@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Network UI</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 20px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .controls-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f7f7f7;
+    }
+
+    #status-box {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px 16px;
+      max-width: 500px;
+      margin-top: 10px;
+    }
+
+    #status-text {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    #status-morse {
+      font-family: "Courier New", monospace;
+      margin-top: 4px;
+    }
+
+    .status-on {
+      color: green;
+    }
+
+    .status-off {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Light Control</h1>
+
+  <div class="controls">
+    <div class="controls-group">
+      <button id="btn-on">On</button>
+      <button id="btn-off">Off</button>
+    </div>
+
+    <div class="controls-group">
+      <button id="btn-sos">SOS</button>
+      <button id="btn-htmaa">HTMAA 2025</button>
+      <button id="btn-stay">STAY</button>
+    </div>
+  </div>
+
+  <div id="status-box">
+    <div id="status-text" class="status-off">LED is OFF</div>
+    <div id="status-morse"></div>
+  </div>
+
+  <script>
+    const statusText  = document.getElementById("status-text");
+    const statusMorse = document.getElementById("status-morse");
+
+    function updateStatusFromMode(mode) {
+      // reset classes
+      statusText.className = "";
+      statusMorse.textContent = "";
+
+      if (mode === "ON") {
+        statusText.textContent = "LED is ON";
+        statusText.classList.add("status-on");
+      } else if (mode === "OFF") {
+        statusText.textContent = "LED is OFF";
+        statusText.classList.add("status-off");
+      } else if (mode === "SOS") {
+        statusText.textContent = "Message: SOS";
+        statusMorse.textContent = "Morse: ... --- ...";
+      } else if (mode === "HTMAA") {
+        statusText.textContent = "Message: HTMAA 2025";
+        statusMorse.textContent =
+          "Morse: .... - -- .- .- / ..--- ----- ..--- .....";
+      } else if (mode === "STAY") {
+        statusText.textContent = "Message: STAY";
+        statusMorse.textContent = "Morse: ... - .- -.--";
+      }
+    }
+
+    async function sendCommand(command) {
+      try {
+        const res = await fetch("/api/command", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          console.error("Error from server:", data.error);
+          return;
+        }
+
+        // data.status.mode is the current mode
+        updateStatusFromMode(data.status.mode);
+      } catch (err) {
+        console.error("Network error:", err);
+      }
+    }
+
+    async function fetchStatus() {
+      try {
+        const res = await fetch("/api/status");
+        const data = await res.json();
+        updateStatusFromMode(data.mode);
+      } catch (err) {
+        console.error("Could not get status:", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("btn-on")
+        .addEventListener("click", () => sendCommand("ON"));
+      document.getElementById("btn-off")
+        .addEventListener("click", () => sendCommand("OFF"));
+
+      document.getElementById("btn-sos")
+        .addEventListener("click", () => sendCommand("SOS"));
+      document.getElementById("btn-htmaa")
+        .addEventListener("click", () => sendCommand("HTMAA"));
+      document.getElementById("btn-stay")
+        .addEventListener("click", () => sendCommand("STAY"));
+
+      // Initialize status from server
+      fetchStatus();
+    });
+  </script>
+</body>
+</html>
