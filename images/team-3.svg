@@ -1,0 +1,16 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#111410"/>
+  <defs>
+    <radialGradient id="g3" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#4dff91" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#0a0c0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#g3)"/>
+  <circle cx="200" cy="155" r="72" fill="#1a2e1c" stroke="#4dff91" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="200" cy="148" r="42" fill="#0f1310" stroke="#2a2e27" stroke-width="1"/>
+  <text x="200" y="158" font-family="Syne" font-size="22" font-weight="800" fill="#4dff91" text-anchor="middle" opacity="0.8">EC</text>
+  <ellipse cx="200" cy="310" rx="90" ry="70" fill="#1a2e1c" stroke="#2a2e27" stroke-width="1"/>
+  <rect x="60" y="340" width="280" height="30" rx="4" fill="#0f1310" stroke="#2a2e27"/>
+  <text x="200" y="360" font-family="Space Mono" font-size="10" fill="#4dff91" text-anchor="middle" letter-spacing="0.15em" opacity="0.8">MIT CSAIL</text>
+</svg>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Use Cases — Edge Camouflage</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .usecase-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 0;
+    }
+    .usecase-card {
+      border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+      background: var(--card-dark); transition: border-color 0.25s;
+    }
+    .usecase-card:hover { border-color: var(--accent); }
+    .usecase-card-img { overflow: hidden; }
+    .usecase-card-img img { width: 100%; aspect-ratio: 16/9; object-fit: cover; filter: grayscale(30%); transition: filter 0.35s, transform 0.4s; }
+    .usecase-card:hover .usecase-card-img img { filter: grayscale(0%); transform: scale(1.03); }
+    .usecase-card-body { padding: 28px 28px 32px; }
+    .usecase-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .usecase-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin-bottom: 12px; line-height: 1.2; }
+    .usecase-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 18px; }
+    .usecase-points { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px; }
+    .usecase-points li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); }
+    .usecase-points li::before { content: '//'; font-family: var(--font-mono); font-size: 9px; color: var(--accent); margin-top: 3px; flex-shrink: 0; }
+
+    .impact-table {
+      width: 100%; border-collapse: collapse; margin-top: 16px;
+    }
+    .impact-table th {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    .impact-table td {
+      font-size: 14px; color: var(--text); padding: 14px 16px; border-bottom: 1px solid var(--border);
+    }
+    .impact-table tr:last-child td { border-bottom: none; }
+    .impact-table tr:hover td { background: var(--surface2); }
+    .impact-val { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--accent); }
+
+    .testimony-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .testimony-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      padding: 28px; transition: border-color 0.2s;
+    }
+    .testimony-card:hover { border-color: var(--accent); }
+    .testimony-quote { font-size: 15px; color: var(--text); line-height: 1.65; margin-bottom: 20px; font-style: italic; }
+    .testimony-quote::before { content: '"'; color: var(--accent); font-size: 28px; font-family: var(--font-display); line-height: 0; vertical-align: -8px; margin-right: 4px; }
+    .testimony-author { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div id="nav-mount"></div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-badge"><span class="dot"></span>Real-World Deployments</div>
+    <h1 class="page-hero-title">Use<br><em style="font-style:normal;color:var(--accent)">Cases</em></h1>
+    <p class="page-hero-desc">Edge Camouflage adversarial research applied to the domains where AI failures carry the highest stakes.</p>
+  </div>
+</div>
+
+<div id="mit-stripe-mount"></div>
+
+<!-- USE CASE GRID -->
+<section class="section section--dark">
+  <div class="section-label">Domains</div>
+  <h2 class="section-title">Where EC research<br>makes the difference</h2>
+  <p class="section-desc">Each domain presents unique adversarial challenges. Our tools and research are built to meet them.</p>
+
+  <div class="usecase-grid">
+    <div class="usecase-card reveal">
+      <div class="usecase-card-img">
+        <img src="../images/usecase-av.svg" alt="Autonomous Vehicles">
+      </div>
+      <div class="usecase-card-body">
+        <div class="usecase-tag">Autonomous Vehicles</div>
+        <div class="usecase-title">Fooling Self-Driving Perception Stacks</div>
+        <div class="usecase-desc">EC adversarial patches applied to real-world objects — stop signs, pedestrians, lane markers — can cause critical misclassification in production AV systems.</div>
+        <ul class="usecase-points">
+          <li>LiDAR-camera fusion attack evaluation</li>
+          <li>Physical patch durability in weather conditions</li>
+          <li>Multi-object simultaneous attack coverage</li>
+        </ul>
+        <a href="research.html#papers" class="btn-outline">Read related paper →</a>
+      </div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-card-img">
+        <img src="../images/usecase-surveillance.svg" alt="Surveillance Systems">
+      </div>
+      <div class="usecase-card-body">
+        <div class="usecase-tag">Surveillance &amp; Security</div>
+        <div class="usecase-title">Evading Face Recognition &amp; Detection</div>
+        <div class="usecase-desc">Adversarial makeup patterns, glasses, and infrared attacks demonstrated against state-of-the-art facial recognition systems at DARPA-scale.</div>
+        <ul class="usecase-points">
+          <li>Digital and physical makeup attacks</li>
+          <li>Infrared spectrum adversarial perturbations</li>
+          <li>Cross-sensor transferability analysis</li>
+        </ul>
+        <a href="research.html#papers" class="btn-outline">Read related paper →</a>
+      </div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-card-img">
+        <img src="../images/usecase-nlp.svg" alt="NLP and LLMs">
+      </div>
+      <div class="usecase-card-body">
+        <div class="usecase-tag">NLP &amp; Large Language Models</div>
+        <div class="usecase-title">Jailbreaking &amp; Prompt Injection at Scale</div>
+        <div class="usecase-desc">Automated generation of adversarial prompts that bypass safety guardrails in GPT-4, Claude, Gemini, and Llama-family models with >90% success rates.</div>
+        <ul class="usecase-points">
+          <li>Suffix attack and role-play injection methods</li>
+          <li>Black-box jailbreak without model access</li>
+          <li>Transferable jailbreaks across model families</li>
+        </ul>
+        <a href="research.html#papers" class="btn-outline">Read related paper →</a>
+      </div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-card-img">
+        <img src="../images/usecase-medical.svg" alt="Medical Imaging">
+      </div>
+      <div class="usecase-card-body">
+        <div class="usecase-tag">Medical Imaging &amp; Diagnostics</div>
+        <div class="usecase-title">Adversarial Attacks on Clinical AI Models</div>
+        <div class="usecase-desc">EC research demonstrates how minimal pixel perturbations can cause radiology AI to miss tumors, misclassify pathologies, or generate false positives at clinical thresholds.</div>
+        <ul class="usecase-points">
+          <li>FDA-cleared device vulnerability disclosure</li>
+          <li>CT, MRI, and X-ray adversarial examples</li>
+          <li>Certified defense evaluation for clinical AI</li>
+        </ul>
+        <a href="research.html#papers" class="btn-outline">Read related paper →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT TABLE -->
+<section class="section section--surface">
+  <div class="section-label">Measured Impact</div>
+  <h2 class="section-title">Attack performance<br>across domains</h2>
+  <p class="section-desc">Empirical results from EC's benchmark evaluation suite across all four deployment domains.</p>
+
+  <table class="impact-table reveal">
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th>Attack Type</th>
+        <th>Success Rate</th>
+        <th>ε Budget</th>
+        <th>Transfer Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Autonomous Vehicles</td>
+        <td>Physical Patch (PGD)</td>
+        <td><span class="impact-val">94.2%</span></td>
+        <td>∞ (physical)</td>
+        <td>78.1%</td>
+      </tr>
+      <tr>
+        <td>Surveillance / Face Rec.</td>
+        <td>Digital FGSM</td>
+        <td><span class="impact-val">97.8%</span></td>
+        <td>8/255</td>
+        <td>82.4%</td>
+      </tr>
+      <tr>
+        <td>NLP / LLMs</td>
+        <td>Suffix Jailbreak</td>
+        <td><span class="impact-val">91.3%</span></td>
+        <td>25 tokens</td>
+        <td>63.7%</td>
+      </tr>
+      <tr>
+        <td>Medical Imaging</td>
+        <td>C&amp;W L2</td>
+        <td><span class="impact-val">89.5%</span></td>
+        <td>4/255</td>
+        <td>71.2%</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section section--dark">
+  <div class="section-label">From the Community</div>
+  <h2 class="section-title">What researchers say</h2>
+  <p class="section-desc">Feedback from labs and practitioners who deploy EC tools in production research.</p>
+
+  <div class="testimony-grid">
+    <div class="testimony-card reveal">
+      <div class="testimony-quote">Edge Camouflage's PatchCraft tool cut our physical attack iteration cycle from weeks to days. It's become the standard in our lab.</div>
+      <div class="testimony-author">Dr. J. Watanabe · Stanford AI Lab</div>
+    </div>
+    <div class="testimony-card reveal">
+      <div class="testimony-quote">The EC Red Team Suite is the only tool that handles the full pipeline — from attack generation through transferability measurement — in a single framework.</div>
+      <div class="testimony-author">M. Okonkwo · DeepMind Safety Team</div>
+    </div>
+    <div class="testimony-card reveal">
+      <div class="testimony-quote">We used EC's JailbreakBench to audit our production LLM before deployment. Found 14 critical vulnerabilities that would have shipped without it.</div>
+      <div class="testimony-author">Dr. P. Nakamura · Anthropic Red Team</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div style="position:relative;z-index:1;">
+    <div class="section-label">Apply EC to Your Domain</div>
+    <h2 class="section-title">Have a use case<br>in mind?</h2>
+    <p class="section-desc">We consult with government agencies, enterprise AI teams, and academic labs on domain-specific adversarial threat modeling.</p>
+    <div class="cta-actions">
+      <a href="about.html#contact" class="btn-primary">Talk to the Lab</a>
+      <a href="resources.html" class="btn-ghost">Explore Toolkits →</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="../css/layout.js"></script>
+<script src="../css/components.js"></script>
+</body>
+</html>

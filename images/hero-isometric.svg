@@ -1,0 +1,39 @@
+<svg viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Layer 3: APIs -->
+  <g transform="translate(60, 240)">
+    <polygon points="200,0 400,80 400,120 200,200 0,120 0,80" fill="#0a1a0d" stroke="#2a2e27" stroke-width="1"/>
+    <polygon points="200,0 400,80 200,160 0,80" fill="#0f2012" stroke="#2a2e27" stroke-width="0.5"/>
+    <polygon points="0,80 0,120 200,200 200,160" fill="#0a1508" stroke="#2a2e27" stroke-width="0.5"/>
+    <polygon points="400,80 400,120 200,200 200,160" fill="#0d1c0f" stroke="#2a2e27" stroke-width="0.5"/>
+    <polygon points="200,0 280,32 260,80 180,60 120,40 150,10" fill="#142614" opacity="0.5"/>
+    <text x="170" y="100" fill="#4dff91" font-family="Space Mono, monospace" font-size="16" opacity="0.9">APIs</text>
+  </g>
+  <!-- Layer 2: SDKs -->
+  <g transform="translate(60, 150)">
+    <polygon points="200,0 400,80 400,120 200,200 0,120 0,80" fill="#0c1e10" stroke="#3a4035" stroke-width="1"/>
+    <polygon points="200,0 400,80 200,160 0,80" fill="#122416" stroke="#3a4035" stroke-width="0.5"/>
+    <polygon points="0,80 0,120 200,200 200,160" fill="#0e1a0c" stroke="#3a4035" stroke-width="0.5"/>
+    <polygon points="400,80 400,120 200,200 200,160" fill="#112010" stroke="#3a4035" stroke-width="0.5"/>
+    <polygon points="200,0 300,40 280,100 200,80 100,60" fill="#1c3018" opacity="0.5"/>
+    <text x="165" y="100" fill="#4dff91" font-family="Space Mono, monospace" font-size="16" opacity="0.9">SDKs</text>
+  </g>
+  <!-- Layer 1: Attack Models (top) -->
+  <g transform="translate(60, 50)">
+    <polygon points="200,0 400,80 400,120 200,200 0,120 0,80" fill="#142616" stroke="#4dff9180" stroke-width="1.5"/>
+    <polygon points="200,0 400,80 200,160 0,80" fill="#1a2e1c" stroke="#4dff9140" stroke-width="0.5"/>
+    <polygon points="0,80 0,120 200,200 200,160" fill="#142014" stroke="#4dff9130" stroke-width="0.5"/>
+    <polygon points="400,80 400,120 200,200 200,160" fill="#182818" stroke="#4dff9130" stroke-width="0.5"/>
+    <line x1="80" y1="60" x2="320" y2="140" stroke="#4dff91" stroke-width="0.5" opacity="0.3"/>
+    <line x1="60" y1="90" x2="340" y2="110" stroke="#4dff91" stroke-width="0.3" opacity="0.2"/>
+    <text x="90" y="100" fill="#4dff91" font-family="Space Mono, monospace" font-size="14" opacity="1">ATTACK MODELS</text>
+    <circle cx="180" cy="60" r="3" fill="#4dff91" opacity="0.6"/>
+    <circle cx="220" cy="70" r="2" fill="#4dff91" opacity="0.4"/>
+    <circle cx="260" cy="55" r="3" fill="#b8ff6e" opacity="0.5"/>
+    <circle cx="300" cy="80" r="2" fill="#4dff91" opacity="0.3"/>
+  </g>
+  <!-- Connecting dashed lines -->
+  <line x1="60" y1="170" x2="60" y2="230" stroke="#4dff91" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+  <line x1="460" y1="170" x2="460" y2="230" stroke="#4dff91" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+  <line x1="60" y1="270" x2="60" y2="320" stroke="#4dff91" stroke-width="1" opacity="0.2" stroke-dasharray="4,4"/>
+  <line x1="460" y1="270" x2="460" y2="320" stroke="#4dff91" stroke-width="1" opacity="0.2" stroke-dasharray="4,4"/>
+</svg>

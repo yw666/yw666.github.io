@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research — Edge Camouflage</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .papers-filter {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .filter-btn {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); background: var(--surface2);
+      border: 1px solid var(--border); padding: 7px 16px; border-radius: 20px; cursor: none;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+
+    .papers-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .paper-row {
+      background: var(--card-dark); padding: 28px 32px;
+      display: grid; grid-template-columns: 80px 120px 1fr auto;
+      align-items: center; gap: 20px;
+      transition: background 0.2s; text-decoration: none; color: inherit;
+    }
+    .paper-row:hover { background: var(--surface2); }
+    .paper-year { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; color: var(--accent); }
+    .paper-venue { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .paper-title { font-family: var(--font-display); font-weight: 600; font-size: 17px; }
+    .paper-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .paper-title-wrap { display: flex; flex-direction: column; }
+    .paper-arrow { font-size: 18px; color: var(--accent); opacity: 0; transition: opacity 0.2s, transform 0.2s; }
+    .paper-row:hover .paper-arrow { opacity: 1; transform: translateX(4px); }
+
+    .research-visual-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 48px;
+    }
+    .vis-card {
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+      background: var(--card-dark); transition: border-color 0.2s;
+    }
+    .vis-card:hover { border-color: var(--accent); }
+    .vis-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .vis-card-body { padding: 16px 18px; }
+    .vis-card-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .vis-card-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; }
+
+    .dataset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .dataset-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      padding: 24px; transition: border-color 0.2s;
+    }
+    .dataset-card:hover { border-color: var(--accent); }
+    .dataset-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .dataset-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+    .dataset-size { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .dataset-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  </style>
+</head>
+<body>
+
+<div id="nav-mount"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-badge"><span class="dot"></span>MIT CSAIL · Publications</div>
+    <h1 class="page-hero-title">Adversarial<br><em style="font-style:normal;color:var(--accent)">Research</em></h1>
+    <p class="page-hero-desc">Peer-reviewed papers, preprints, benchmark datasets, and open-source tooling from the Edge Camouflage lab at MIT.</p>
+  </div>
+</div>
+
+<div id="mit-stripe-mount"></div>
+
+<!-- RESEARCH AREAS -->
+<section class="section section--surface" id="areas">
+  <div class="section-label">Research Areas</div>
+  <h2 class="section-title">What we study</h2>
+  <p class="section-desc">Six core pillars driving the Edge Camouflage research agenda.</p>
+
+  <div class="research-grid">
+    <div class="research-item reveal">
+      <div class="research-num">01</div>
+      <div>
+        <div class="research-title">Evasion Attacks on Vision Models</div>
+        <div class="research-desc">Generating imperceptible perturbations that fool state-of-the-art image classifiers, detectors, and segmentation models under white-box and black-box constraints.</div>
+      </div>
+    </div>
+    <div class="research-item reveal">
+      <div class="research-num">02</div>
+      <div>
+        <div class="research-title">Physical-World Adversarial Patches</div>
+        <div class="research-desc">Designing printed adversarial textures that persist under real-world conditions: lighting variation, viewpoint changes, and compression.</div>
+      </div>
+    </div>
+    <div class="research-item reveal">
+      <div class="research-num">03</div>
+      <div>
+        <div class="research-title">LLM Red-Teaming &amp; Jailbreaking</div>
+        <div class="research-desc">Automated adversarial prompt generation exposing safety misalignments in instruction-tuned language models at scale.</div>
+      </div>
+    </div>
+    <div class="research-item reveal">
+      <div class="research-num">04</div>
+      <div>
+        <div class="research-title">Transferability &amp; Black-Box Attacks</div>
+        <div class="research-desc">Exploiting cross-model transferability to enable potent attacks without direct model access or gradient information.</div>
+      </div>
+    </div>
+    <div class="research-item reveal">
+      <div class="research-num">05</div>
+      <div>
+        <div class="research-title">Certified Robustness &amp; Defenses</div>
+        <div class="research-desc">Provably robust defenses using randomized smoothing, adversarial training, and formal verification methods.</div>
+      </div>
+    </div>
+    <div class="research-item reveal">
+      <div class="research-num">06</div>
+      <div>
+        <div class="research-title">Multimodal &amp; Cross-Modal Attacks</div>
+        <div class="research-desc">Synchronized adversarial perturbations across image and text modalities targeting vision-language models.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISUAL RESEARCH SNAPSHOTS -->
+<section class="section section--dark">
+  <div class="section-label">Visual Highlights</div>
+  <h2 class="section-title">Attack in action</h2>
+  <p class="section-desc">Visual documentation of our key research findings and attack demonstrations.</p>
+  <div class="research-visual-row">
+    <div class="vis-card reveal">
+      <img src="../images/research-fgsm.svg" alt="FGSM Attack">
+      <div class="vis-card-body">
+        <div class="vis-card-label">Vision · Evasion</div>
+        <div class="vis-card-title">FGSM Perturbation on ResNet-50</div>
+      </div>
+    </div>
+    <div class="vis-card reveal">
+      <img src="../images/research-patch.svg" alt="Physical Patch">
+      <div class="vis-card-body">
+        <div class="vis-card-label">Physical World</div>
+        <div class="vis-card-title">Printed Adversarial Patch (STOP sign)</div>
+      </div>
+    </div>
+    <div class="vis-card reveal">
+      <img src="../images/research-llm.svg" alt="LLM Red-Teaming">
+      <div class="vis-card-body">
+        <div class="vis-card-label">NLP · Jailbreak</div>
+        <div class="vis-card-title">LLM Jailbreak via Suffix Attack</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAPERS -->
+<section class="section section--surface" id="papers">
+  <div class="section-label">Publications</div>
+  <h2 class="section-title">Papers &amp; Preprints</h2>
+
+  <div class="papers-filter">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Vision</button>
+    <button class="filter-btn">NLP / LLMs</button>
+    <button class="filter-btn">Physical World</button>
+    <button class="filter-btn">Defenses</button>
+    <button class="filter-btn">Surveys</button>
+  </div>
+
+  <div class="papers-list">
+    <a href="#" class="paper-row reveal">
+      <span class="paper-year">2025</span>
+      <span class="paper-venue">Preprint</span>
+      <div class="paper-title-wrap">
+        <span class="paper-title">Black-Box Camouflage: Query-Efficient Attacks Without Model Access</span>
+        <span class="paper-desc">Score-only black-box attacks using surrogate gradient estimation. EC + MIT CSAIL.</span>
+      </div>
+      <span class="paper-arrow">→</span>
+    </a>
+    <a href="#" class="paper-row reveal">
+      <span class="paper-year">2025</span>
+      <span class="paper-venue">Preprint</span>
+      <div class="paper-title-wrap">
+        <span class="paper-title">LLM Red-Teaming at Scale with EC Linguistic Perturbations</span>
+        <span class="paper-desc">Semantic-preserving token substitution attacks on instruction-tuned LLMs.</span>
+      </div>
+      <span class="paper-arrow">→</span>
+    </a>
+    <a href="#" class="paper-row reveal">
+      <span class="paper-year">2025</span>
+      <span class="paper-venue">Survey</span>
+      <div class="paper-title-wrap">
+        <span class="paper-title">Adversarial ML Landscape: State of the Field 2025</span>
+        <span class="paper-desc">Annual survey of 400+ adversarial ML papers, categorized by attack, defense, and evaluation.</span>
+      </div>
+      <span class="paper-arrow">→</span>
+    </a>
+    <a href="#" class="paper-row reveal">
+      <span class="paper-year">2024</span>
+      <span class="paper-venue">ICLR Spotlight</span>
+      <div class="paper-title-wrap">
+        <span class="paper-title">Edge Camouflage: Universal Adversarial Perturbations at Scale</span>
+        <span class="paper-desc">Flagship paper introducing the EC framework for geometry-aware adversarial patches.</span>
+      </div>
+      <span class="paper-arrow">→</span>
+    </a>
+    <a href="#" class="paper-row reveal">
+      <span class="paper-year">2024</span>
+      <span class="paper-venue">NeurIPS 2024</span>
+      <div class="paper-title-wrap">
+        <span class="paper-title">Against Camouflage: Certified Defenses via Randomized Smoothing</span>
+        <span class="paper-desc">Robustness certification against the EC family of attacks with formal guarantees.</span>
+      </div>
+      <span class="paper-arrow">→</span>
+    </a>
+    <a href="#" class="paper-row reveal">
+      <span class="paper-year">2024</span>
+      <span class="paper-venue">CVPR 2024</span>
+      <div class="paper-title-wrap">
+        <span class="paper-title">Physical-World Adversarial Attacks on Autonomous Driving Stacks</span>
+        <span class="paper-desc">EC patches on printed objects fool LiDAR-camera fusion models in AV pipelines.</span>
+      </div>
+      <span class="paper-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- DATASETS -->
+<section class="section section--dark" id="datasets">
+  <div class="section-label">Open Data</div>
+  <h2 class="section-title">Benchmark Datasets</h2>
+  <p class="section-desc">Free for credentialed academic and non-profit researchers under the EC Open Data License.</p>
+
+  <div class="dataset-grid">
+    <div class="dataset-card reveal">
+      <div class="dataset-tag">Vision · Flagship</div>
+      <div class="dataset-size">1.2M</div>
+      <div class="dataset-name">AdvImageNet-EC</div>
+      <div class="dataset-desc">Adversarial images across 1000 ImageNet classes with perturbation budgets and transferability scores.</div>
+    </div>
+    <div class="dataset-card reveal">
+      <div class="dataset-tag">NLP</div>
+      <div class="dataset-size">8 Tasks</div>
+      <div class="dataset-name">AdversarialGLUE-EC</div>
+      <div class="dataset-desc">EC linguistic perturbations across GLUE benchmarks, tested on 12 transformer models.</div>
+    </div>
+    <div class="dataset-card reveal">
+      <div class="dataset-tag">Autonomy</div>
+      <div class="dataset-size">40K Frames</div>
+      <div class="dataset-name">PhysAdv-Drive</div>
+      <div class="dataset-desc">In-the-wild adversarial patch deployments against four AV sensor configurations.</div>
+    </div>
+    <div class="dataset-card reveal">
+      <div class="dataset-tag">LLMs</div>
+      <div class="dataset-size">500 Prompts</div>
+      <div class="dataset-name">JailbreakBench-EC</div>
+      <div class="dataset-desc">Standardized jailbreak prompts across 10 harm categories, tested on 20 LLMs.</div>
+    </div>
+    <div class="dataset-card reveal">
+      <div class="dataset-tag">Defenses</div>
+      <div class="dataset-size">100K</div>
+      <div class="dataset-name">CertifiedRobustness-100K</div>
+      <div class="dataset-desc">Certified robustness radii via randomized smoothing, paired with EC-Attack for defense evaluation.</div>
+    </div>
+    <div class="dataset-card reveal">
+      <div class="dataset-tag">Multi-Modal</div>
+      <div class="dataset-size">Cross-modal</div>
+      <div class="dataset-name">MultiModal-Adv</div>
+      <div class="dataset-desc">Synchronized image-text adversarial examples targeting CLIP, BLIP-2, and LLaVA.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div style="position:relative;z-index:1;">
+    <div class="section-label">Collaborate</div>
+    <h2 class="section-title">Want to publish<br>with EC?</h2>
+    <p class="section-desc">We actively collaborate with academic labs worldwide. Reach out to discuss joint research.</p>
+    <div class="cta-actions">
+      <a href="about.html#contact" class="btn-primary">Contact the Lab</a>
+      <a href="resources.html" class="btn-ghost">Explore Toolkits →</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="../css/layout.js"></script>
+<script src="../css/components.js"></script>
+<script>
+  // Filter buttons (UI only)
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

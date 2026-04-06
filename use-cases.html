@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Use Cases — Edge Camouflage</title>
+  <meta name="description" content="How Edge Camouflage is used across academia, enterprise AI safety, autonomous systems, and government defense research.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .use-case-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      padding: 80px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .use-case-block:nth-child(even) { background: var(--surface); }
+    .use-case-block:nth-child(even) .use-case-block__visual { order: -1; }
+    .use-case-block__label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .use-case-block__label::before { content:''; width:24px; height:1px; background:var(--accent); }
+    .use-case-block__title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(26px, 3.5vw, 42px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .use-case-block__title em { font-style:normal; color:var(--accent); }
+    .use-case-block__desc { font-size:16px; color:var(--muted); line-height:1.75; font-weight:300; margin-bottom:28px; }
+    .use-case-block__bullets { margin-bottom:32px; display:flex; flex-direction:column; gap:10px; }
+    .bullet { display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--muted); line-height:1.5; }
+    .bullet::before { content:'//'; font-family:var(--font-mono); color:var(--accent); font-size:11px; flex-shrink:0; padding-top:2px; }
+    .use-case-block__visual {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .use-case-block__visual img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    /* Placeholder graphic when no image */
+    .visual-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .visual-placeholder svg { opacity: 0.3; }
+    .logo-wall {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .logo-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 2px;
+    }
+    .testimonial-block {
+      background: var(--surface2);
+      border-left: 2px solid var(--accent);
+      padding: 24px 28px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-top: 24px;
+    }
+    .testimonial-block__quote { font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px; font-style:italic; font-weight:300; }
+    .testimonial-block__author { font-family:var(--font-mono); font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV injected -->
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero__content">
+      <div class="page-hero__badge">Applications</div>
+      <h1 class="page-hero__title">Who uses <em>EC</em></h1>
+      <p class="page-hero__desc">From university research labs to enterprise AI safety teams — Edge Camouflage powers adversarial research across academia, industry, and government.</p>
+    </div>
+  </div>
+
+  <!-- USE CASE 1: ACADEMIA -->
+  <div class="use-case-block" id="academia">
+    <div class="use-case-block__content">
+      <div class="use-case-block__label">Academia</div>
+      <h2 class="use-case-block__title">University<br><em>Research Labs</em></h2>
+      <p class="use-case-block__desc">EC provides the reproducible evaluation infrastructure that academic adversarial ML research demands. Used by 80+ universities for peer-reviewed publications.</p>
+      <div class="use-case-block__bullets reveal">
+        <div class="bullet">Standardized benchmarks compatible with ICLR, NeurIPS, ICML submission requirements</div>
+        <div class="bullet">Free academic tier for verified .edu accounts — no compute quotas</div>
+        <div class="bullet">Built-in BibTeX export and experiment tracking for reproducibility</div>
+        <div class="bullet">Integration with common research stacks: PyTorch Lightning, JAX, Hugging Face</div>
+      </div>
+      <div class="logo-wall">
+        <span class="logo-pill">MIT</span>
+        <span class="logo-pill">Stanford</span>
+        <span class="logo-pill">CMU</span>
+        <span class="logo-pill">ETH Zurich</span>
+        <span class="logo-pill">Oxford</span>
+        <span class="logo-pill">Berkeley</span>
+        <span class="logo-pill">+ 74 more</span>
+      </div>
+      <div style="margin-top:24px;">
+        <a href="about.html#contact" class="btn btn--primary btn--sm">Apply for academic access</a>
+      </div>
+    </div>
+    <div class="use-case-block__visual reveal">
+      <!-- Replace with: <img src="../images/academia-lab.jpg" alt="University research lab"> -->
+      <div class="visual-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="8" y="24" width="48" height="32" rx="2" stroke="#4dff91" stroke-width="2"/><path d="M20 24V18l12-10 12 10v6" stroke="#4dff91" stroke-width="2"/><rect x="26" y="40" width="12" height="16" stroke="#4dff91" stroke-width="1.5"/></svg>
+        <span>Place image here:<br>images/academia-lab.jpg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- USE CASE 2: ENTERPRISE -->
+  <div class="use-case-block" id="enterprise">
+    <div class="use-case-block__content">
+      <div class="use-case-block__label">Enterprise</div>
+      <h2 class="use-case-block__title">AI <em>Safety Teams</em></h2>
+      <p class="use-case-block__desc">Red-teaming frameworks built for the speed and scale of production AI teams. Integrate EC into your CI/CD pipeline and catch vulnerabilities before deployment.</p>
+      <div class="use-case-block__bullets reveal">
+        <div class="bullet">CI/CD integration via EC-CLI and GitHub Actions template</div>
+        <div class="bullet">SSO/SAML support for enterprise identity management</div>
+        <div class="bullet">Audit logs and compliance reporting for SOC 2 / ISO 27001</div>
+        <div class="bullet">Dedicated Slack support channel and SLA guarantees</div>
+      </div>
+      <div class="testimonial-block reveal">
+        <p class="testimonial-block__quote">"EC Red Team Suite became our standard for pre-deployment robustness evaluation. It found critical vulnerabilities in three of our vision models that would have shipped."</p>
+        <span class="testimonial-block__author">— Head of AI Safety, Fortune 500 AI Company</span>
+      </div>
+      <div style="margin-top:24px;">
+        <a href="about.html#contact" class="btn btn--primary btn--sm">Request enterprise demo</a>
+      </div>
+    </div>
+    <div class="use-case-block__visual reveal">
+      <div class="visual-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="8" y="8" width="48" height="48" rx="4" stroke="#4dff91" stroke-width="2"/><path d="M20 32 L28 40 L44 24" stroke="#4dff91" stroke-width="2"/></svg>
+        <span>Place image here:<br>images/enterprise-team.jpg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- USE CASE 3: AUTONOMOUS SYSTEMS -->
+  <div class="use-case-block" id="autonomy">
+    <div class="use-case-block__content">
+      <div class="use-case-block__label">Autonomous Systems</div>
+      <h2 class="use-case-block__title"><em>Physical-World</em><br>Attack Testing</h2>
+      <p class="use-case-block__desc">EC's PatchCraft tool generates print-ready adversarial patches tested against the most challenging real-world perception conditions — rain, glare, occlusion, sensor noise.</p>
+      <div class="use-case-block__bullets reveal">
+        <div class="bullet">Supports LiDAR, radar, camera, and sensor fusion attack scenarios</div>
+        <div class="bullet">Print-ready export in SVG, PDF, TIFF — tested under controlled lab conditions</div>
+        <div class="bullet">PhysAdv-Drive dataset: 40K frames across 4 AV sensor configurations</div>
+        <div class="bullet">Toyota Research, Waymo, and Argo AI verified test protocols</div>
+      </div>
+      <div style="margin-top:24px;">
+        <a href="resources.html#toolkits" class="btn btn--primary btn--sm">Explore PatchCraft</a>
+        <a href="research.html#datasets" class="btn btn--ghost btn--sm" style="margin-left:12px;">PhysAdv Dataset</a>
+      </div>
+    </div>
+    <div class="use-case-block__visual reveal">
+      <div class="visual-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="22" stroke="#4dff91" stroke-width="2"/><circle cx="32" cy="32" r="8" stroke="#4dff91" stroke-width="1.5" stroke-dasharray="3,3"/><line x1="32" y1="10" x2="32" y2="54" stroke="#4dff91" stroke-width="1" opacity="0.4"/><line x1="10" y1="32" x2="54" y2="32" stroke="#4dff91" stroke-width="1" opacity="0.4"/></svg>
+        <span>Place image here:<br>images/patch-physical.jpg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- USE CASE 4: GOVERNMENT/DEFENSE -->
+  <div class="use-case-block" id="defense">
+    <div class="use-case-block__content">
+      <div class="use-case-block__label">Government &amp; Defense</div>
+      <h2 class="use-case-block__title">Mission-Critical<br><em>AI Evaluation</em></h2>
+      <p class="use-case-block__desc">DARPA-affiliated programs and national labs use EC for certified robustness evaluation of AI systems operating in adversarial environments where failure has real consequences.</p>
+      <div class="use-case-block__bullets reveal">
+        <div class="bullet">FedRAMP-ready deployment configurations available on request</div>
+        <div class="bullet">DARPA GARD program compatible evaluation methodology</div>
+        <div class="bullet">Air-gapped deployment option for classified research environments</div>
+        <div class="bullet">Export compliance review process for ITAR/EAR-sensitive applications</div>
+      </div>
+      <div class="testimonial-block reveal">
+        <p class="testimonial-block__quote">"The EC certified robustness suite is the most rigorous tool we've evaluated for mission-critical AI assurance. The DARPA GARD compatibility was essential for our program."</p>
+        <span class="testimonial-block__author">— Program Manager, DARPA I2O</span>
+      </div>
+      <div style="margin-top:24px;">
+        <a href="about.html#contact" class="btn btn--primary btn--sm">Contact our government team</a>
+      </div>
+    </div>
+    <div class="use-case-block__visual reveal">
+      <div class="visual-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><polygon points="32,4 58,18 58,46 32,60 6,46 6,18" stroke="#4dff91" stroke-width="2" fill="none"/><polygon points="32,14 48,23 48,41 32,50 16,41 16,23" stroke="#4dff91" stroke-width="1" fill="none" opacity="0.4"/><circle cx="32" cy="32" r="6" stroke="#4dff91" stroke-width="1.5"/></svg>
+        <span>Place image here:<br>images/defense-evaluation.jpg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="section-label">Work with us</div>
+    <h2 class="section-title">Find your use case</h2>
+    <p class="section-desc">Not sure which tier is right for you? Talk to our team and we'll find the right fit.</p>
+    <div class="cta-banner__actions">
+      <a href="about.html#contact" class="btn btn--primary">Talk to the team</a>
+      <a href="resources.html" class="btn btn--ghost">Browse resources →</a>
+    </div>
+  </section>
+
+  <script src="css/main.js"></script>
+  <script src="css/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — Edge Camouflage</title>
+  <meta name="description" content="EC developer resources: quickstart guides, attack toolkits, datasets, certifications, and full API reference.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Code block style */
+    .code-block {
+      background: #070a08;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 24px 28px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+    .code-block .kw  { color: #b8ff6e; }
+    .code-block .str { color: #4dff91; }
+    .code-block .cmt { color: #4a5245; }
+    .code-block .fn  { color: #7dd9f7; }
+    .code-block .num { color: #ffb84d; }
+    .quickstart-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
+    .quickstart-steps { counter-reset: step; }
+    .step { display:flex; gap:20px; margin-bottom:32px; }
+    .step__num { font-family:var(--font-mono); font-size:12px; color:var(--accent); background:var(--accent-dim); border:1px solid rgba(77,255,145,0.3); width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:700; }
+    .step__title { font-family:var(--font-display); font-weight:700; font-size:16px; margin-bottom:4px; }
+    .step__desc { font-size:13.5px; color:var(--muted); line-height:1.6; font-weight:300; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV injected -->
+
+  <!-- ══════ HERO ══════ -->
+  <div class="page-hero">
+    <div class="page-hero__content">
+      <div class="page-hero__badge">Researcher Resources</div>
+      <h1 class="page-hero__title">EC <em>Resources</em></h1>
+      <p class="page-hero__desc">Everything you need to build, test, and deploy adversarial attack research. From five-minute quickstarts to production-grade APIs.</p>
+    </div>
+  </div>
+
+  <!-- ══════ TABS ══════ -->
+  <section class="section section--surface" id="quickstart">
+    <div class="section-label">Resources</div>
+    <h2 class="section-title">Ready to start<br>researching adversarial AI?</h2>
+    <p class="section-desc">From foundational papers to deployment-ready attack libraries — indexed and open to credentialed researchers.</p>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="quickstart">Quickstart</button>
+      <button class="tab-btn" data-tab="toolkits">Attack Toolkits</button>
+      <button class="tab-btn" data-tab="certification">Certification</button>
+      <button class="tab-btn" data-tab="api">API Reference</button>
+      <button class="tab-btn" data-tab="sdk">SDKs</button>
+    </div>
+
+    <!-- QUICKSTART TAB -->
+    <div class="tab-panel active" id="tab-quickstart">
+      <div class="quickstart-grid">
+        <div>
+          <div class="quickstart-steps">
+            <div class="step">
+              <div class="step__num">1</div>
+              <div>
+                <div class="step__title">Install the EC package</div>
+                <div class="step__desc">Supports Python 3.9+ with PyTorch ≥ 2.0, JAX, or TensorFlow.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step__num">2</div>
+              <div>
+                <div class="step__title">Load your model</div>
+                <div class="step__desc">Works with any differentiable PyTorch/JAX model. Pre-wrapped configs for 50+ architectures.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step__num">3</div>
+              <div>
+                <div class="step__title">Generate an adversarial example</div>
+                <div class="step__desc">Choose from PGD, FGSM, C&W, AutoAttack, or your custom attack.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step__num">4</div>
+              <div>
+                <div class="step__title">Evaluate &amp; export</div>
+                <div class="step__desc">Built-in metrics, transferability scoring, and export to RobustBench format.</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px;">
+            <a href="#" class="btn btn--primary btn--sm">Full Docs</a>
+            <a href="#" class="btn btn--ghost btn--sm">View on GitHub</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="code-block">
+<span class="cmt"># Step 1: install</span>
+<span class="kw">pip</span> install ec-attack
+
+<span class="cmt"># Step 2 & 3: attack in 5 lines</span>
+<span class="kw">import</span> torch
+<span class="kw">from</span> ec_attack <span class="kw">import</span> ECAttacker, <span class="fn">load_model</span>
+
+model = <span class="fn">load_model</span>(<span class="str">"resnet50"</span>)
+attacker = <span class="fn">ECAttacker</span>(model, attack=<span class="str">"pgd"</span>,
+                       eps=<span class="num">8</span>/<span class="num">255</span>, steps=<span class="num">40</span>)
+
+x_adv = attacker.<span class="fn">generate</span>(x, y)
+
+<span class="cmt"># Step 4: evaluate</span>
+acc = attacker.<span class="fn">eval_robustness</span>(x_adv, y)
+<span class="fn">print</span>(<span class="str">f"Robust acc: {acc:.2%}"</span>)
+          </div>
+          <div style="margin-top:16px;">
+            <span class="mono-tag">v2.4.1</span>&nbsp;
+            <span class="mono-tag">MIT License</span>&nbsp;
+            <span class="mono-tag">Python 3.9+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <div style="margin-top:56px;">
+        <div class="section-label">More resources</div>
+        <div class="cards-grid" style="margin-top:24px;">
+          <div class="card card--featured reveal">
+            <div class="card__icon">⚡</div>
+            <div class="card__tag">Quickstart</div>
+            <div class="card__title">5-Minute Attack Setup</div>
+            <div class="card__desc">Deploy your first adversarial perturbation against a production image classifier in under five minutes. LocalNet to cloud in one command.</div>
+            <a href="#" class="card__link">Get started</a>
+          </div>
+          <div class="card reveal">
+            <div class="card__icon">🧩</div>
+            <div class="card__tag">Guided</div>
+            <div class="card__title">Research Quests</div>
+            <div class="card__desc">Step-by-step quests covering EC architecture, perturbation theory, and black-box attack construction through the EC Core Academy.</div>
+            <a href="#" class="card__link">Start learning</a>
+          </div>
+          <div class="card reveal">
+            <div class="card__icon">📖</div>
+            <div class="card__tag">Documentation</div>
+            <div class="card__title">Full Documentation</div>
+            <div class="card__desc">Comprehensive technical docs covering every module: perturbation generation, evasion strategies, transferability analysis, and defenses.</div>
+            <a href="#" class="card__link">Read docs</a>
+          </div>
+          <div class="card reveal">
+            <div class="card__icon">🔬</div>
+            <div class="card__tag">Sandbox</div>
+            <div class="card__title">Interactive Lab</div>
+            <div class="card__desc">Run live adversarial experiments in the browser against hosted models. No setup required — results in real time.</div>
+            <a href="#" class="card__link">Open lab</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLKITS TAB -->
+    <div class="tab-panel" id="tab-toolkits">
+      <div class="cards-grid">
+        <div class="card card--featured reveal">
+          <div class="card__icon">🗡️</div>
+          <div class="card__tag">Core Tool</div>
+          <div class="card__title">EC-Attack Library</div>
+          <div class="card__desc">The flagship open-source library for generating, evaluating, and deploying adversarial examples across 50+ model architectures.</div>
+          <a href="#" class="card__link">View on GitHub</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🎯</div>
+          <div class="card__tag">Red Teaming</div>
+          <div class="card__title">EC Red Team Suite</div>
+          <div class="card__desc">End-to-end red-teaming toolkit. Covers jailbreak generation, adversarial prompt injection, and robustness benchmarking.</div>
+          <a href="#" class="card__link">Explore suite</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🩺</div>
+          <div class="card__tag">Evaluation</div>
+          <div class="card__title">RobustBench Integration</div>
+          <div class="card__desc">Native integration for standardized evaluation. Compare your model against 500+ certified defenses in one command.</div>
+          <a href="#" class="card__link">Run benchmarks</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🖼️</div>
+          <div class="card__tag">Vision</div>
+          <div class="card__title">PatchCraft</div>
+          <div class="card__desc">Generate physically-realizable adversarial patches with texture and geometry constraints. Export to SVG, PDF, or print-ready formats.</div>
+          <a href="#" class="card__link">Try PatchCraft</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🔍</div>
+          <div class="card__tag">Analysis</div>
+          <div class="card__title">TransferScope</div>
+          <div class="card__desc">Measure cross-model transferability across architecture families, training regimes, and data distributions.</div>
+          <a href="#" class="card__link">Analyze transfer</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">⚙️</div>
+          <div class="card__tag">Automation</div>
+          <div class="card__title">EC-CLI</div>
+          <div class="card__desc">Command-line interface for scripting adversarial workflows, batch attack generation, and CI/CD integration.</div>
+          <a href="#" class="card__link">Install CLI</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATION TAB -->
+    <div class="tab-panel" id="tab-certification">
+      <div class="cards-grid">
+        <div class="card card--featured reveal">
+          <div class="card__icon">🏅</div>
+          <div class="card__tag">MIT Co-Certified</div>
+          <div class="card__title">Adversarial AI Practitioner (AAP)</div>
+          <div class="card__desc">Flagship EC certification, co-developed with MIT CSAIL. Six modules covering attack theory, implementation, evaluation, and responsible disclosure. Industry recognized.</div>
+          <a href="#" class="card__link">Enroll now</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🔐</div>
+          <div class="card__tag">Specialist</div>
+          <div class="card__title">Red Team Operator (RTO)</div>
+          <div class="card__desc">Hands-on practitioner track for real-world red-teaming of deployed AI systems. Includes live capstone challenges with production models.</div>
+          <a href="#" class="card__link">Learn more</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">📐</div>
+          <div class="card__tag">Foundational</div>
+          <div class="card__title">EC Foundations Certificate</div>
+          <div class="card__desc">Self-paced intro covering perturbation theory, attack taxonomies, and evaluation methodology. Ideal for new researchers.</div>
+          <a href="#" class="card__link">Start free</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🏛️</div>
+          <div class="card__tag">Academic</div>
+          <div class="card__title">MIT Course Credit Integration</div>
+          <div class="card__desc">EC certification modules recognized for credit in MIT's 6.S978 (Adversarial Machine Learning) course.</div>
+          <a href="#" class="card__link">Learn more</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🌍</div>
+          <div class="card__tag">Enterprise</div>
+          <div class="card__title">Team Certification Programs</div>
+          <div class="card__desc">Bulk enrollment for AI safety teams, research labs, and enterprises. Custom modules and dedicated instructor support.</div>
+          <a href="#" class="card__link">Contact us</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">⚖️</div>
+          <div class="card__tag">Ethics</div>
+          <div class="card__title">Responsible Disclosure Track</div>
+          <div class="card__desc">Ethics and policy certification covering CVD processes, coordinated disclosure, legal frameworks, and dual-use considerations.</div>
+          <a href="#" class="card__link">View track</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- API TAB -->
+    <div class="tab-panel" id="tab-api">
+      <div class="cards-grid">
+        <div class="card card--featured reveal">
+          <div class="card__icon">🔌</div>
+          <div class="card__tag">REST API</div>
+          <div class="card__title">EC Attack API v2</div>
+          <div class="card__desc">Production REST API for generating adversarial examples on-demand. Supports FGSM, PGD, C&amp;W, AutoAttack, and custom gradient-based attacks. 99.9% SLA.</div>
+          <a href="#" class="card__link">API docs</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🔄</div>
+          <div class="card__tag">Webhooks</div>
+          <div class="card__title">Async Attack Webhooks</div>
+          <div class="card__desc">Subscribe to attack completion events, transferability scores, and model evaluation results via configurable webhook endpoints.</div>
+          <a href="#" class="card__link">Webhook guide</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🗝️</div>
+          <div class="card__tag">Auth</div>
+          <div class="card__title">API Key Management</div>
+          <div class="card__desc">Research-grade API keys with per-key rate limits, usage analytics, and org-level access controls. Free tier for credentialed researchers.</div>
+          <a href="#" class="card__link">Manage keys</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">📊</div>
+          <div class="card__tag">Analytics</div>
+          <div class="card__title">Usage &amp; Audit Dashboard</div>
+          <div class="card__desc">Real-time dashboard tracking API usage, attack success rates, latency, and audit logs for compliance and reproducibility.</div>
+          <a href="#" class="card__link">Open dashboard</a>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top:40px;">
+<span class="cmt">// EC REST API — generate adversarial example</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://api.edgecamo.mit.edu/v2/attack"</span>, {
+  method: <span class="str">"POST"</span>,
+  headers: {
+    <span class="str">"Authorization"</span>: <span class="str">`Bearer ${API_KEY}`</span>,
+    <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>
+  },
+  body: <span class="fn">JSON.stringify</span>({
+    model: <span class="str">"resnet50"</span>,
+    attack: <span class="str">"pgd"</span>,
+    epsilon: <span class="num">8</span>,         <span class="cmt">// L∞ budget in [0,255]</span>
+    steps: <span class="num">40</span>,
+    image: base64Image,
+    label: <span class="num">282</span>          <span class="cmt">// ImageNet tiger cat</span>
+  })
+});
+
+<span class="kw">const</span> { adversarial_image, success_rate } = <span class="kw">await</span> response.<span class="fn">json</span>();
+      </div>
+    </div>
+
+    <!-- SDK TAB -->
+    <div class="tab-panel" id="tab-sdk">
+      <div class="cards-grid">
+        <div class="card card--featured reveal">
+          <div class="card__icon">🧬</div>
+          <div class="card__tag">Python SDK</div>
+          <div class="card__title">ec-attack Python Package</div>
+          <div class="card__desc">Install with pip. Natively supports PyTorch, JAX, and TensorFlow. Auto-batching, GPU acceleration, and async execution built in.</div>
+          <a href="#" class="card__link">PyPI docs</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🟨</div>
+          <div class="card__tag">JS/TS SDK</div>
+          <div class="card__title">@edge-camouflage/core</div>
+          <div class="card__desc">Full-featured TypeScript SDK for browser and Node.js environments. WebGL-accelerated perturbation generation for real-time applications.</div>
+          <a href="#" class="card__link">npm docs</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">🦀</div>
+          <div class="card__tag">Rust SDK</div>
+          <div class="card__title">ec-attack-rs (Beta)</div>
+          <div class="card__desc">High-performance Rust SDK for low-latency attack generation. Zero-copy FFI bindings to the C++ core engine.</div>
+          <a href="#" class="card__link">Crates.io</a>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">☕</div>
+          <div class="card__tag">Java SDK</div>
+          <div class="card__title">ECAttack-Java</div>
+          <div class="card__desc">JVM-compatible SDK for enterprise Java and Kotlin applications. Supports Android deployment via TensorFlow Lite backend.</div>
+          <a href="#" class="card__link">Maven docs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ CTA ══════ -->
+  <section class="cta-banner">
+    <div class="section-label">Get started</div>
+    <h2 class="section-title">Start your adversarial<br>research today</h2>
+    <p class="section-desc">Free for academic researchers affiliated with verified institutions.</p>
+    <div class="cta-banner__actions">
+      <a href="about.html#contact" class="btn btn--primary">Request Access</a>
+      <a href="research.html" class="btn btn--ghost">Browse papers →</a>
+    </div>
+  </section>
+
+  <script src="css/main.js"></script>
+  <script src="css/components.js"></script>
+</body>
+</html>

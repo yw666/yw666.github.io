@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Edge Camouflage</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .mission-img { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .mission-img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .value-card {
+      background: var(--card-dark); border: 1px solid var(--border); border-radius: 4px;
+      padding: 28px 24px; transition: border-color 0.2s;
+    }
+    .value-card:hover { border-color: var(--accent); }
+    .value-num { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--border); margin-bottom: 14px; }
+    .value-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 8px; }
+    .value-desc { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+    .mit-section { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .mit-img { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .mit-img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .mit-details { display: flex; flex-direction: column; gap: 16px; }
+    .mit-detail { display: flex; gap: 16px; align-items: flex-start; }
+    .mit-detail-icon { font-size: 22px; flex-shrink: 0; }
+    .mit-detail-title { font-family: var(--font-display); font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+    .mit-detail-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 86px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item { display: grid; grid-template-columns: 80px 32px 1fr; gap: 0 20px; padding: 0 0 32px; }
+    .timeline-year { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); padding-top: 2px; text-align: right; }
+    .timeline-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; margin-top: 6px; flex-shrink: 0; position: relative; z-index: 1; justify-self: center; }
+    .timeline-content {}
+    .timeline-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+    .timeline-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      padding: 28px; transition: border-color 0.2s;
+    }
+    .contact-card:hover { border-color: var(--accent); }
+    .contact-card-icon { font-size: 26px; margin-bottom: 12px; }
+    .contact-card-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+    .contact-card-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .contact-card-email { font-family: var(--font-mono); font-size: 12px; color: var(--accent); letter-spacing: 0.05em; }
+  </style>
+</head>
+<body>
+
+<div id="nav-mount"></div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-badge"><span class="dot"></span>MIT CSAIL · Founded 2019</div>
+    <h1 class="page-hero-title">About<br><em style="font-style:normal;color:var(--accent)">Edge Camouflage</em></h1>
+    <p class="page-hero-desc">We are MIT's adversarial AI research group — building the science and infrastructure to understand, expose, and defend against attacks on machine learning systems.</p>
+  </div>
+</div>
+
+<div id="mit-stripe-mount"></div>
+
+<!-- MISSION -->
+<section class="section section--dark">
+  <div class="section-label">Mission</div>
+  <div class="mission-grid">
+    <div>
+      <h2 class="section-title">AI that can't be<br>fooled starts with<br><em>understanding</em><br>how it gets fooled.</h2>
+      <p class="section-desc">Edge Camouflage was founded on a simple belief: you cannot build robust AI without an adversarial mindset. Our mission is to advance the science of adversarial machine learning — and make that science universally accessible.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="resources.html" class="btn-primary">Explore Resources</a>
+        <a href="#contact" class="btn-ghost">Work with us →</a>
+      </div>
+    </div>
+    <div class="mission-img reveal">
+      <img src="../images/about-lab.svg" alt="EC Research Lab">
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section section--surface">
+  <div class="section-label">Core Values</div>
+  <h2 class="section-title">How we operate</h2>
+  <p class="section-desc">Six principles that guide every paper we publish, every tool we ship, and every disclosure we make.</p>
+
+  <div class="values-grid">
+    <div class="value-card reveal">
+      <div class="value-num">01</div>
+      <div class="value-title">Openness by Default</div>
+      <div class="value-desc">All EC tools, datasets, and code are open-source under MIT license. Science advances through transparency, not secrecy.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="value-num">02</div>
+      <div class="value-title">Responsible Disclosure</div>
+      <div class="value-desc">We follow coordinated vulnerability disclosure for every AI system vulnerability we discover. We never exploit — we inform.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="value-num">03</div>
+      <div class="value-title">Rigor First</div>
+      <div class="value-desc">Every claim we make is backed by peer-reviewed experiments with published code. Reproducibility is non-negotiable.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="value-num">04</div>
+      <div class="value-title">Dual-Use Awareness</div>
+      <div class="value-desc">We take seriously the dual-use nature of adversarial research. Every release is reviewed by our ethics board for potential misuse.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="value-num">05</div>
+      <div class="value-title">Community Over Competition</div>
+      <div class="value-desc">We collaborate with other adversarial ML labs rather than competing. The shared goal — safe AI — is larger than any single lab.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="value-num">06</div>
+      <div class="value-title">Defense &amp; Offense Together</div>
+      <div class="value-desc">We publish attack research and certified defense research in equal measure. You cannot defend what you do not understand.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section section--dark" id="team">
+  <div class="section-label">The Team</div>
+  <h2 class="section-title">Meet the lab</h2>
+  <p class="section-desc">A multidisciplinary team spanning ML research, security, ethics, and systems engineering — all based at MIT CSAIL.</p>
+
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="team-card-photo"><img src="../images/team-1.svg" alt="Dr. Maya Chen"></div>
+      <div class="team-card-body">
+        <div class="team-card-name">Dr. Maya Chen</div>
+        <div class="team-card-role">Director · EC Lab</div>
+        <div class="team-card-bio">PhD MIT EECS. Former Google Brain. Specializes in universal adversarial perturbations and physical-world attacks.</div>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-card-photo"><img src="../images/team-2.svg" alt="Dr. Ravi Nair"></div>
+      <div class="team-card-body">
+        <div class="team-card-name">Dr. Ravi Nair</div>
+        <div class="team-card-role">Research Lead · NLP</div>
+        <div class="team-card-bio">PhD Stanford NLP. Focus on LLM red-teaming, jailbreak generation, and adversarial alignment evaluation.</div>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-card-photo"><img src="../images/team-3.svg" alt="Dr. Zara Osei"></div>
+      <div class="team-card-body">
+        <div class="team-card-name">Dr. Zara Osei</div>
+        <div class="team-card-role">Research Lead · Defenses</div>
+        <div class="team-card-bio">PhD ETH Zürich. Expert in certified robustness via randomized smoothing and adversarial training at scale.</div>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-card-photo"><img src="../images/team-4.svg" alt="James Park"></div>
+      <div class="team-card-body">
+        <div class="team-card-name">James Park</div>
+        <div class="team-card-role">Principal Engineer</div>
+        <div class="team-card-bio">MIT EECS. Leads the EC-Attack library, API infrastructure, and SDK development across all languages.</div>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-card-photo"><img src="../images/team-5.svg" alt="Dr. Lena Schmidt"></div>
+      <div class="team-card-body">
+        <div class="team-card-name">Dr. Lena Schmidt</div>
+        <div class="team-card-role">Ethics &amp; Policy</div>
+        <div class="team-card-bio">JD/PhD MIT. Leads responsible disclosure policy, dual-use review board, and government advisory engagements.</div>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-card-photo"><img src="../images/team-6.svg" alt="Ade Okonkwo"></div>
+      <div class="team-card-body">
+        <div class="team-card-name">Ade Okonkwo</div>
+        <div class="team-card-role">Research Scientist</div>
+        <div class="team-card-bio">MIT EECS PhD candidate. Focus on multimodal adversarial attacks targeting vision-language model alignment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MIT PARTNERSHIP -->
+<section class="section section--surface" id="mit">
+  <div class="section-label">Academic Foundation</div>
+  <div class="mit-section">
+    <div class="mit-img reveal">
+      <img src="../images/mit-campus.svg" alt="MIT Campus">
+    </div>
+    <div>
+      <h2 class="section-title">Deeply rooted<br>at MIT</h2>
+      <p class="section-desc" style="margin-bottom:32px;">Edge Camouflage is a formal research group within MIT's Computer Science and Artificial Intelligence Laboratory (CSAIL) — one of the world's leading AI research institutions.</p>
+      <div class="mit-details">
+        <div class="mit-detail reveal">
+          <div class="mit-detail-icon">🏛️</div>
+          <div>
+            <div class="mit-detail-title">MIT CSAIL Affiliation</div>
+            <div class="mit-detail-desc">Full faculty-led research group with dedicated lab space in MIT's Stata Center, Building 32.</div>
+          </div>
+        </div>
+        <div class="mit-detail reveal">
+          <div class="mit-detail-icon">🎓</div>
+          <div>
+            <div class="mit-detail-title">Curriculum Integration</div>
+            <div class="mit-detail-desc">EC tools and methods are taught in MIT's 6.S978 (Adversarial Machine Learning) course, reaching 200+ students per semester.</div>
+          </div>
+        </div>
+        <div class="mit-detail reveal">
+          <div class="mit-detail-icon">🤝</div>
+          <div>
+            <div class="mit-detail-title">DARPA &amp; NSF Funded</div>
+            <div class="mit-detail-desc">Research funded through DARPA's AI Exploration program and the NSF AI Institute for Trustworthy AI in Law, Society and Work.</div>
+          </div>
+        </div>
+        <div class="mit-detail reveal">
+          <div class="mit-detail-icon">📋</div>
+          <div>
+            <div class="mit-detail-title">MIT Ethics Board Review</div>
+            <div class="mit-detail-desc">All EC publications and tool releases undergo review by MIT's dual-use research of concern (DURC) committee before release.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section section--dark">
+  <div class="section-label">History</div>
+  <h2 class="section-title">How we got here</h2>
+  <p class="section-desc" style="margin-bottom:48px;">From a two-person MIT thesis project to a global research lab.</p>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2019</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">Founded at MIT CSAIL</div>
+        <div class="timeline-desc">Dr. Maya Chen and Dr. Ravi Nair begin EC as a side project during their MIT PhDs, publishing the first EC preprint on arXiv.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2021</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">EC-Attack Library v1.0</div>
+        <div class="timeline-desc">First public release of the EC-Attack Python library. 1,000 GitHub stars within the first week.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2022</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">DARPA Award &amp; Lab Expansion</div>
+        <div class="timeline-desc">$4.2M DARPA AI Exploration award. Lab expands to 12 researchers. First physical-world attack paper published at CVPR.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">ICLR Spotlight &amp; 10K Users</div>
+        <div class="timeline-desc">Flagship EC paper receives ICLR 2024 Spotlight. Platform reaches 10,000 registered researchers globally.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2025</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">EC v3.0 — LLM Red-Teaming</div>
+        <div class="timeline-desc">Major platform release adding full LLM red-teaming support. MIT certification program launches with 500+ initial enrollments.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section--surface" id="contact">
+  <div class="section-label">Get in Touch</div>
+  <h2 class="section-title">Work with us</h2>
+  <p class="section-desc">Research collaborations, government partnerships, enterprise access, and press inquiries.</p>
+
+  <div class="contact-grid">
+    <div class="contact-card reveal">
+      <div class="contact-card-icon">🔬</div>
+      <div class="contact-card-title">Research Collaboration</div>
+      <div class="contact-card-desc">Joint papers, dataset sharing, and visiting researcher programs. We actively collaborate with labs worldwide.</div>
+      <div class="contact-card-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7958294828695848fa78283808284868a8892818b868082c98a8e93c9828392">[email&#160;protected]</a></div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-card-icon">🏢</div>
+      <div class="contact-card-title">Enterprise &amp; Government</div>
+      <div class="contact-card-desc">Red team engagements, custom tooling, and adversarial threat modeling for AI systems at scale.</div>
+      <div class="contact-card-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07626973627577756e7462476263606264666a6872616b666062296a6e7329626372">[email&#160;protected]</a></div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-card-icon">📰</div>
+      <div class="contact-card-title">Press &amp; Media</div>
+      <div class="contact-card-desc">Interview requests, expert commentary on adversarial AI, and media partnerships for science communication.</div>
+      <div class="contact-card-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb9b998e9898ab8e8f8c8e888a86849e8d878a8c8ec586829fc58e8f9e">[email&#160;protected]</a></div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-card-icon">⚖️</div>
+      <div class="contact-card-title">Ethics &amp; Disclosure</div>
+    

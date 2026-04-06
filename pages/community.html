@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — Edge Camouflage</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .channel-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      padding: 32px 24px; transition: border-color 0.2s; text-decoration: none; color: inherit;
+      display: block; position: relative;
+    }
+    .channel-card:hover { border-color: var(--accent); }
+    .channel-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .channel-card:hover::before { transform: scaleX(1); }
+    .channel-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+    .channel-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin-bottom: 8px; }
+    .channel-count { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+    .channel-desc { font-size: 14px; color: var(--muted); line-height: 1.65; font-weight: 300; margin-bottom: 20px; }
+
+    .events-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .event-row {
+      background: var(--card-dark); padding: 24px 28px;
+      display: grid; grid-template-columns: 80px 1fr auto;
+      align-items: center; gap: 20px;
+      transition: background 0.2s; text-decoration: none; color: inherit;
+    }
+    .event-row:hover { background: var(--surface2); }
+    .event-date {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 4px;
+      text-align: center; padding: 8px;
+    }
+    .event-month { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .event-day { font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1; }
+    .event-type { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .event-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+    .event-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .event-badge {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .event-badge.upcoming { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+
+    .blog-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .blog-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      overflow: hidden; transition: border-color 0.2s; text-decoration: none; color: inherit; display: block;
+    }
+    .blog-card:hover { border-color: var(--accent); }
+    .blog-card-img { overflow: hidden; }
+    .blog-card-img img { width: 100%; aspect-ratio: 16/9; object-fit: cover; filter: grayscale(40%); transition: filter 0.3s, transform 0.4s; }
+    .blog-card:hover .blog-card-img img { filter: grayscale(0%); transform: scale(1.04); }
+    .blog-card-body { padding: 18px 18px 22px; }
+    .blog-date { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .blog-title { font-family: var(--font-display); font-weight: 700; font-size: 16px; line-height: 1.3; margin-bottom: 8px; }
+    .blog-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .digest-form {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+      padding: 40px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+    }
+    .digest-form-copy { flex: 1; min-width: 260px; }
+    .digest-form-copy h3 { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin-bottom: 6px; }
+    .digest-form-copy p { font-size: 14px; color: var(--muted); }
+    .digest-form-inputs { display: flex; gap: 10px; flex-shrink: 0; }
+    .digest-input {
+      font-family: var(--font-body); font-size: 14px; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+      padding: 12px 16px; width: 260px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .digest-input:focus { border-color: var(--accent); }
+    .digest-input::placeholder { color: var(--muted); }
+    .digest-submit {
+      font-family: var(--font-display); font-weight: 700; font-size: 13px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--accent); color: #000; border: none;
+      padding: 12px 24px; border-radius: 3px; cursor: none;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .digest-submit:hover { background: var(--accent2); }
+  </style>
+</head>
+<body>
+
+<div id="nav-mount"></div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-badge"><span class="dot"></span>12,000+ Active Researchers</div>
+    <h1 class="page-hero-title">The EC<br><em style="font-style:normal;color:var(--accent)">Community</em></h1>
+    <p class="page-hero-desc">Connect with the global adversarial ML research community. Share findings, get help with EC tools, and collaborate on the next generation of attack research.</p>
+  </div>
+</div>
+
+<div id="mit-stripe-mount"></div>
+
+<!-- CHANNELS -->
+<section class="section section--dark">
+  <div class="section-label">Connect</div>
+  <h2 class="section-title">Find your community</h2>
+  <p class="section-desc">Multiple channels — pick the ones that fit how you work.</p>
+
+  <div class="channel-grid">
+    <a href="#" class="channel-card reveal">
+      <span class="channel-icon">💬</span>
+      <div class="channel-title">Discord Server</div>
+      <div class="channel-count">12,000+ members</div>
+      <div class="channel-desc">Real-time discussion across 30+ topic channels. Dedicated help desks for EC-Attack, PatchCraft, the API, and each SDK.</div>
+      <span class="btn-outline">Join Discord →</span>
+    </a>
+    <a href="#" class="channel-card reveal">
+      <span class="channel-icon">🔭</span>
+      <div class="channel-title">GitHub Organization</div>
+      <div class="channel-count">8,400+ stars · 300+ contributors</div>
+      <div class="channel-desc">All EC tools are open source under MIT license. File issues, submit PRs, and browse our 20+ active repositories.</div>
+      <span class="btn-outline">View org →</span>
+    </a>
+    <a href="#" class="channel-card reveal">
+      <span class="channel-icon">🐦</span>
+      <div class="channel-title">X / Twitter</div>
+      <div class="channel-count">@EdgeCamouflage · 24K followers</div>
+      <div class="channel-desc">Paper announcements, release notes, conference coverage, and adversarial ML news curated daily by the EC team.</div>
+      <span class="btn-outline">Follow us →</span>
+    </a>
+    <a href="#" class="channel-card reveal">
+      <span class="channel-icon">📝</span>
+      <div class="channel-title">Research Forum</div>
+      <div class="channel-count">OpenReview-style · 2,100+ threads</div>
+      <div class="channel-desc">Structured long-form discussion of papers, methods, and reproducibility. Peer-reviewed by the EC editorial board.</div>
+      <span class="btn-outline">Open forum →</span>
+    </a>
+    <a href="#" class="channel-card reveal">
+      <span class="channel-icon">🔗</span>
+      <div class="channel-title">LinkedIn Group</div>
+      <div class="channel-count">5,800+ professionals</div>
+      <div class="channel-desc">Professional network for adversarial AI practitioners in industry, government, and academic labs worldwide.</div>
+      <span class="btn-outline">Join group →</span>
+    </a>
+    <a href="#" class="channel-card reveal">
+      <span class="channel-icon">🎙️</span>
+      <div class="channel-title">EC Podcast</div>
+      <div class="channel-count">Bi-weekly · 180 episodes</div>
+      <div class="channel-desc">Deep-dive interviews with adversarial ML researchers. Recent guests: Yoshua Bengio, Dawn Song, Ian Goodfellow.</div>
+      <span class="btn-outline">Listen →</span>
+    </a>
+  </div>
+</section>
+
+<!-- UPCOMING EVENTS -->
+<section class="section section--surface">
+  <div class="section-label">Events</div>
+  <h2 class="section-title">Upcoming events</h2>
+  <p class="section-desc">Workshops, seminars, hackathons, and conference appearances from the EC team.</p>
+
+  <div class="events-list">
+    <a href="#" class="event-row reveal">
+      <div class="event-date">
+        <div class="event-month">APR</div>
+        <div class="event-day">18</div>
+      </div>
+      <div>
+        <div class="event-type">Workshop · Online</div>
+        <div class="event-title">EC Attack Library v3.0 Launch Workshop</div>
+        <div class="event-meta">Live demo + Q&amp;A · Hosted by MIT CSAIL</div>
+      </div>
+      <span class="event-badge upcoming">Register →</span>
+    </a>
+    <a href="#" class="event-row reveal">
+      <div class="event-date">
+        <div class="event-month">MAY</div>
+        <div class="event-day">06</div>
+      </div>
+      <div>
+        <div class="event-type">Hackathon · Cambridge, MA</div>
+        <div class="event-title">EC Red Team Hackathon — Spring 2026</div>
+        <div class="event-meta">48h · $25,000 in prizes · MIT Stata Center</div>
+      </div>
+      <span class="event-badge upcoming">Apply →</span>
+    </a>
+    <a href="#" class="event-row reveal">
+      <div class="event-date">
+        <div class="event-month">MAY</div>
+        <div class="event-day">21</div>
+      </div>
+      <div>
+        <div class="event-type">Conference · Vienna, Austria</div>
+        <div class="event-title">ICLR 2026 — EC Lab Presentations</div>
+        <div class="event-meta">3 accepted papers · Booth #42</div>
+      </div>
+      <span class="event-badge upcoming">View schedule →</span>
+    </a>
+    <a href="#" class="event-row reveal">
+      <div class="event-date">
+        <div class="event-month">JUN</div>
+        <div class="event-day">10</div>
+      </div>
+      <div>
+        <div class="event-type">Seminar · Online</div>
+        <div class="event-title">Monthly Research Seminar: LLM Jailbreak State of the Art</div>
+        <div class="event-meta">EC Research Seminar Series · Free to attend</div>
+      </div>
+      <span class="event-badge upcoming">Register →</span>
+    </a>
+    <a href="#" class="event-row reveal">
+      <div class="event-date">
+        <div class="event-month">JUL</div>
+        <div class="event-day">14</div>
+      </div>
+      <div>
+        <div class="event-type">Conference · San Francisco, CA</div>
+        <div class="event-title">ICML 2026 — EC Workshop on Adversarial Robustness</div>
+        <div class="event-meta">Full-day workshop · Submission deadline: Jun 1</div>
+      </div>
+      <span class="event-badge">CFP open</span>
+    </a>
+  </div>
+</section>
+
+<!-- RESEARCH BLOG -->
+<section class="section section--dark">
+  <div class="section-label">Research Blog</div>
+  <h2 class="section-title">Latest from the lab</h2>
+  <p class="section-desc">In-depth technical posts from EC researchers. No paywalls. No fluff.</p>
+
+  <div class="blog-grid">
+    <a href="#" class="blog-card reveal">
+      <div class="blog-card-img">
+        <img src="../images/research-llm.svg" alt="LLM Jailbreak">
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-date">March 28, 2026 · 12 min read</div>
+        <div class="blog-title">Why LLM Jailbreaks Transfer Across Model Families</div>
+        <div class="blog-desc">A technical deep dive into suffix attack transferability — and why the same 25-token jailbreak works on GPT-4, Claude, and Gemini.</div>
+      </div>
+    </a>
+    <a href="#" class="blog-card reveal">
+      <div class="blog-card-img">
+        <img src="../images/research-patch.svg" alt="Physical Patch">
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-date">March 12, 2026 · 8 min read</div>
+        <div class="blog-title">Printing Adversarial Patches That Survive the Real World</div>
+        <div class="blog-desc">How we design patches that remain adversarial after printing, under various lighting conditions, and at multiple viewing angles.</div>
+      </div>
+    </a>
+    <a href="#" class="blog-card reveal">
+      <div class="blog-card-img">
+        <img src="../images/research-fgsm.svg" alt="FGSM">
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-date">Feb 19, 2026 · 15 min read</div>
+        <div class="blog-title">AutoAttack v3: What Changed and Why It Matters</div>
+        <div class="blog-desc">A benchmark comparison of AutoAttack v3 against prior state-of-the-art, with EC-specific optimizations for large-batch evaluation.</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="section section--surface">
+  <div class="section-label">Stay in the Loop</div>
+  <h2 class="section-title">Research Digest</h2>
+  <p class="section-desc">Weekly. Curated by MIT researchers. No spam, ever.</p>
+  <div class="digest-form reveal">
+    <div class="digest-form-copy">
+      <h3>The EC Weekly Digest</h3>
+      <p>Latest adversarial ML papers, EC tool releases, and community highlights — every Friday morning.</p>
+    </div>
+    <div class="digest-form-inputs">
+      <input class="digest-input" type="email" placeholder="your@institution.edu">
+      <button class="digest-submit">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item reveal"><div class="stat-num">12K+</div><div class="stat-label">Discord Members</div></div>
+  <div class="stat-item reveal"><div class="stat-num">8.4K</div><div class="stat-label">GitHub Stars</div></div>
+  <div class="stat-item reveal"><div class="stat-num">180</div><div class="stat-label">Podcast Episodes</div></div>
+  <div class="stat-item reveal"><div class="stat-num">24</div><div class="stat-label">Events / Year</div></div>
+</div>
+
+<div id="footer-mount"></div>
+
+<script src="../css/layout.js"></script>
+<script src="../css/components.js"></script>
+</body>
+</html>

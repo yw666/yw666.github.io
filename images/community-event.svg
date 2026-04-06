@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#111410"/>
+  <rect width="800" height="450" fill="none" stroke="#2a2e27" stroke-width="1"/>
+  <!-- grid -->
+  <defs>
+    <pattern id="g" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#4dff91" stroke-width="0.3" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#g)"/>
+  <!-- glow -->
+  <ellipse cx="400" cy="225" rx="266" ry="150" fill="#4dff91" opacity="0.04"/>
+  <!-- label -->
+  <text x="400" y="213" text-anchor="middle" font-family="Space Mono, monospace"
+        font-size="13" fill="#4dff91" opacity="0.6" letter-spacing="3">COMMUNITY & EVENTS</text>
+  <text x="400" y="239" text-anchor="middle" font-family="Space Mono, monospace"
+        font-size="10" fill="#7a8475" letter-spacing="2">REPLACE WITH YOUR IMAGE</text>
+  <!-- corner marks -->
+  <polyline points="20,20 20,44 44,44" fill="none" stroke="#4dff91" stroke-width="1.5" opacity="0.5"/>
+  <polyline points="780,20 780,44 756,44" fill="none" stroke="#4dff91" stroke-width="1.5" opacity="0.5"/>
+  <polyline points="20,430 20,406 44,406" fill="none" stroke="#4dff91" stroke-width="1.5" opacity="0.5"/>
+  <polyline points="780,430 780,406 756,406" fill="none" stroke="#4dff91" stroke-width="1.5" opacity="0.5"/>
+</svg>

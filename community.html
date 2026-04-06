@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — Edge Camouflage</title>
+  <meta name="description" content="Join the Edge Camouflage research community: Discord, GitHub, weekly digest, events, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .hub-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+    .hub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 40px 36px;
+      display: flex; flex-direction: column;
+      transition: border-color var(--transition-fast), transform var(--transition-fast);
+      position: relative; overflow: hidden;
+    }
+    .hub-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform var(--transition-med); }
+    .hub-card:hover { border-color:var(--accent); transform:translateY(-4px); }
+    .hub-card:hover::after { transform:scaleX(1); }
+    .hub-card--featured { background:linear-gradient(135deg,#0d1610 0%,#111c14 100%); border-color:rgba(77,255,145,0.3); grid-column:span 2; flex-direction:row; gap:48px; align-items:center; }
+    .hub-card__icon-large { font-size:56px; flex-shrink:0; }
+    .hub-card__tag { font-family:var(--font-mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .hub-card__title { font-family:var(--font-display); font-weight:800; font-size:26px; margin-bottom:12px; }
+    .hub-card__desc { font-size:14px; color:var(--muted); line-height:1.7; font-weight:300; flex:1; margin-bottom:24px; }
+    .hub-card__stats { display:flex; gap:32px; margin-bottom:28px; }
+    .hub-stat__num { font-family:var(--font-display); font-weight:800; font-size:32px; color:var(--accent); }
+    .hub-stat__label { font-family:var(--font-mono); font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); }
+
+    .digest-preview {
+      background: #070a08;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .digest-preview__header {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display:flex; align-items:center; gap:12px;
+    }
+    .digest-preview__dot { width:8px; height:8px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
+    .digest-preview__title { font-family:var(--font-mono); font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); }
+    .digest-preview__body { padding:28px 24px; }
+    .digest-issue { border-bottom:1px solid var(--border); padding:16px 0; }
+    .digest-issue:last-child { border-bottom:none; padding-bottom:0; }
+    .digest-issue__date { font-family:var(--font-mono); font-size:9px; letter-spacing:0.15em; color:var(--muted); margin-bottom:6px; }
+    .digest-issue__headline { font-family:var(--font-display); font-weight:700; font-size:15px; margin-bottom:4px; }
+    .digest-issue__summary { font-size:13px; color:var(--muted); line-height:1.6; font-weight:300; }
+
+    .event-list { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
+    .event-item { background:var(--card-dark); padding:24px 28px; display:flex; align-items:center; gap:24px; transition:background var(--transition-fast); }
+    .event-item:hover { background:var(--surface2); }
+    .event-item__date { font-family:var(--font-mono); font-size:11px; color:var(--accent); flex-shrink:0; width:80px; }
+    .event-item__type { font-family:var(--font-mono); font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); flex-shrink:0; width:100px; }
+    .event-item__name { font-family:var(--font-display); font-weight:700; font-size:16px; flex:1; }
+    .event-item__location { font-size:13px; color:var(--muted); font-weight:300; }
+
+    .contrib-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .contrib-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:28px; text-align:center; transition:border-color var(--transition-fast); }
+    .contrib-card:hover { border-color:var(--accent); }
+    .contrib-card__icon { font-size:32px; margin-bottom:12px; }
+    .contrib-card__title { font-family:var(--font-display); font-weight:700; font-size:17px; margin-bottom:8px; }
+    .contrib-card__desc { font-size:13px; color:var(--muted); line-height:1.6; font-weight:300; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV injected -->
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero__content">
+      <div class="page-hero__badge">Community</div>
+      <h1 class="page-hero__title">The EC <em>Community</em></h1>
+      <p class="page-hero__desc">12,000+ adversarial ML researchers connected through Discord, GitHub, and a weekly research digest. Open, collaborative, and MIT-rooted.</p>
+    </div>
+  </div>
+
+  <!-- COMMUNITY HUBS -->
+  <section class="section section--dark">
+    <div class="section-label">Connect</div>
+    <h2 class="section-title">Where researchers<br>gather</h2>
+    <p class="section-desc">Multiple channels — pick the ones that fit your workflow.</p>
+
+    <div class="hub-grid">
+      <!-- Featured: Discord -->
+      <div class="hub-card hub-card--featured reveal">
+        <div class="hub-card__icon-large">💬</div>
+        <div>
+          <div class="hub-card__tag">Primary Hub</div>
+          <div class="hub-card__title">EC Discord Server</div>
+          <div class="hub-card__desc">The most active adversarial ML community on Discord. Channel-specific help for every EC module, paper discussion rooms, and weekly reading groups hosted by MIT researchers. Moderated, respectful, and deeply technical.</div>
+          <div class="hub-card__stats">
+            <div>
+              <div class="hub-stat__num" data-count="12400">12,400</div>
+              <div class="hub-stat__label">Members</div>
+            </div>
+            <div>
+              <div class="hub-stat__num" data-count="48">48</div>
+              <div class="hub-stat__label">Channels</div>
+            </div>
+            <div>
+              <div class="hub-stat__num" data-count="500">500</div>
+              <div class="hub-stat__label">Weekly messages</div>
+            </div>
+          </div>
+          <a href="#" class="btn btn--primary btn--sm">Join Discord</a>
+        </div>
+      </div>
+
+      <!-- GitHub -->
+      <div class="hub-card reveal">
+        <div style="font-size:40px;margin-bottom:16px;">🔭</div>
+        <div class="hub-card__tag">Open Source</div>
+        <div class="hub-card__title">GitHub Organization</div>
+        <div class="hub-card__desc">All EC tools are open source under the MIT license. Browse 28 repositories, file issues, review PRs, and contribute back to the community. 8K+ stars across the org.</div>
+        <div class="hub-card__stats">
+          <div>
+            <div class="hub-stat__num" data-count="8200">8,200</div>
+            <div class="hub-stat__label">Stars</div>
+          </div>
+          <div>
+            <div class="hub-stat__num" data-count="340">340</div>
+            <div class="hub-stat__label">Contributors</div>
+          </div>
+        </div>
+        <a href="#" class="btn btn--ghost btn--sm">View on GitHub</a>
+      </div>
+
+      <!-- Forum -->
+      <div class="hub-card reveal">
+        <div style="font-size:40px;margin-bottom:16px;">📋</div>
+        <div class="hub-card__tag">Discussion</div>
+        <div class="hub-card__title">Research Forum</div>
+        <div class="hub-card__desc">Long-form technical discussion, Q&A, and reproducibility threads. Searchable archive of 4,000+ threads going back to 2022.</div>
+        <div class="hub-card__stats">
+          <div>
+            <div class="hub-stat__num" data-count="4200">4,200</div>
+            <div class="hub-stat__label">Threads</div>
+          </div>
+        </div>
+        <a href="#" class="btn btn--ghost btn--sm">Browse forum</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEKLY DIGEST -->
+  <section class="section section--surface">
+    <div class="section-label">Newsletter</div>
+    <h2 class="section-title">EC Research Digest</h2>
+    <p class="section-desc">Weekly roundup of the latest adversarial ML papers, EC releases, and community highlights. Curated by MIT researchers every Friday.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
+      <div class="digest-preview reveal">
+        <div class="digest-preview__header">
+          <span class="digest-preview__dot"></span>
+          <span class="digest-preview__title">EC Digest — Recent issues</span>
+        </div>
+        <div class="digest-preview__body">
+          <div class="digest-issue">
+            <div class="digest-issue__date">Vol. 142 · April 2025</div>
+            <div class="digest-issue__headline">AutoAttack++ and the new evaluation standard</div>
+            <div class="digest-issue__summary">This week: a new ICLR paper proposes tighter adaptive attack bounds, PatchCraft 2.1 ships with DALL-E alignment, and a reading group recap on certified defenses.</div>
+          </div>
+          <div class="digest-issue">
+            <div class="digest-issue__date">Vol. 141 · March 2025</div>
+            <div class="digest-issue__headline">Physical attacks survive thermal imaging</div>
+            <div class="digest-issue__summary">The PhysAdv-Drive team releases a pre-print showing EC patches fool thermal cameras. Plus: JailbreakBench 1.2 adds GPT-4o and Gemini 1.5 Pro evals.</div>
+          </div>
+          <div class="digest-issue">
+            <div class="digest-issue__date">Vol. 140 · March 2025</div>
+            <div class="digest-issue__headline">Multimodal attacks: CLIP and LLaVA under fire</div>
+            <div class="digest-issue__summary">Deep dive into synchronized image-text perturbations. We benchmarked 6 VLMs — CLIP was the most brittle by a 2× margin.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:12px;">Subscribe free</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300;">Every Friday morning. No spam — just the week's most important adversarial ML developments, curated by active researchers.</p>
+        <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;">
+          <input type="email" placeholder="you@university.edu"
+            style="flex:1;background:#070a08;border:none;color:var(--text);font-family:var(--font-body);font-size:14px;padding:14px 20px;outline:none;">
+          <button style="background:var(--accent);color:#000;font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;border:none;padding:14px 24px;cursor:none;transition:background var(--transition-fast);"
+            onmouseenter="this.style.background='#b8ff6e'" onmouseleave="this.style.background='#4dff91'">
+            Subscribe
+          </button>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;font-family:var(--font-mono);">// 4,200 subscribers · no ads · unsubscribe anytime</p>
+
+        <div style="margin-top:40px;border-top:1px solid var(--border);padding-top:32px;">
+          <h4 style="font-family:var(--font-display);font-weight:700;font-size:18px;margin-bottom:12px;">Each issue includes</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="bullet">3–5 new adversarial ML papers with plain-English summaries</div>
+            <div class="bullet">EC platform updates, new datasets, and tool releases</div>
+            <div class="bullet">Community spotlights: notable PRs and reproducibility wins</div>
+            <div class="bullet">Upcoming workshops, deadlines, and reading group schedule</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="section section--dark">
+    <div class="section-label">Events</div>
+    <h2 class="section-title">Upcoming &amp; past events</h2>
+    <p class="section-desc">Workshops, reading groups, and conference presences organized by the EC community.</p>
+
+    <div class="event-list">
+      <div class="event-item reveal">
+        <div class="event-item__date">May 2025</div>
+        <div class="event-item__type">Workshop</div>
+        <div class="event-item__name">Adversarial ML Workshop @ ICLR 2025</div>
+        <div class="event-item__location">Vienna, Austria · In person</div>
+      </div>
+      <div class="event-item reveal">
+        <div class="event-item__date">Apr 2025</div>
+        <div class="event-item__type">Reading Group</div>
+        <div class="event-item__name">AutoAttack++ Paper Deep Dive</div>
+        <div class="event-item__location">Discord · Virtual</div>
+      </div>
+      <div class="event-item reveal">
+        <div class="event-item__date">Mar 2025</div>
+        <div class="event-item__type">Hackathon</div>
+        <div class="event-item__name">EC Attack Challenge: Physical Patches</div>
+        <div class="event-item__location">MIT CSAIL, Cambridge MA · Hybrid</div>
+      </div>
+      <div class="event-item reveal">
+        <div class="event-item__date">Dec 2024</div>
+        <div class="event-item__type">Symposium</div>
+        <div class="event-item__name">Adversarial AI Year in Review @ NeurIPS</div>
+        <div class="event-item__location">Vancouver, BC · In person</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO CONTRIBUTE -->
+  <section class="section section--surface">
+    <div class="section-label">Contribute</div>
+    <h2 class="section-title">How to contribute</h2>
+    <p class="section-desc">EC is an open-source, community-driven project. There are many ways to get involved.</p>
+
+    <div class="contrib-grid">
+      <div class="contrib-card reveal">
+        <div class="contrib-card__icon">🐛</div>
+        <div class="contrib-card__title">File Issues</div>
+        <div class="contrib-card__desc">Found a bug or inconsistency? Open a GitHub issue with reproduction steps. We triage daily and aim to respond within 48 hours.</div>
+      </div>
+      <div class="contrib-card reveal">
+        <div class="contrib-card__icon">🔀</div>
+        <div class="contrib-card__title">Submit PRs</div>
+        <div class="contrib-card__desc">New attack implementations, defense integrations, documentation fixes — all welcome. Check our contributor guide before starting.</div>
+      </div>
+      <div class="contrib-card reveal">
+        <div class="contrib-card__icon">📊</div>
+        <div class="contrib-card__title">Add Benchmarks</div>
+        <div class="contrib-card__desc">Run EC benchmarks on a new model or dataset and submit results to our leaderboard. Rigorous evaluation methodology required.</div>
+      </div>
+      <div class="contrib-card reveal">
+        <div class="contrib-card__icon">📝</div>
+        <div class="contrib-card__title">Write Tutorials</div>
+        <div class="contrib-card__desc">Help new researchers get started. We accept community-authored tutorials in our docs under your name and affiliation.</div>
+      </div>
+      <div class="contrib-card reveal">
+        <div class="contrib-card__icon">🌐</div>
+        <div class="contrib-card__title">Translate Docs</div>
+        <div class="contrib-card__desc">Help make EC accessible globally. We currently have partial translations in Chinese, French, and German — more are needed.</div>
+      </div>
+      <div class="contrib-card reveal">
+        <div class="contrib-card__icon">🏫</div>
+        <div class="contrib-card__title">Teach EC</div>
+        <div class="contrib-card__desc">Using EC in your course? We provide lecture slides, homework sets, and grading rubrics for free. Register as an academic partner.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="section-label">Join us</div>
+    <h2 class="section-title">Be part of the<br>adversarial ML community</h2>
+    <p class="section-desc">Start with Discord — the fastest way to connect with 12,000+ researchers.</p>
+    <div class="cta-banner__actions">
+      <a href="#" class="btn btn--primary">Join Discord</a>
+      <a href="#" class="btn btn--ghost">View on GitHub →</a>
+    </div>
+  </section>
+
+  <script src="css/main.js"></script>
+  <script src="css/components.js"></script>
+</body>
+</html>

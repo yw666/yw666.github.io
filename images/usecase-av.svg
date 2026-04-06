@@ -1,0 +1,22 @@
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0a0c0b"/>
+  <rect width="800" height="450" fill="#111410" opacity="0.6"/>
+  <ellipse cx="400" cy="225" rx="280" ry="160" fill="#4dff91" opacity="0.04"/>
+  <rect x="60" y="60" width="680" height="330" rx="4" fill="none" stroke="#2a2e27" stroke-width="1"/>
+  <line x1="60" y1="100" x2="740" y2="100" stroke="#2a2e27" stroke-width="0.5" opacity="0.5"/>
+  <polyline points="60,60 80,60 80,80" fill="none" stroke="#4dff91" stroke-width="2" opacity="0.6"/>
+  <polyline points="740,60 720,60 720,80" fill="none" stroke="#4dff91" stroke-width="2" opacity="0.6"/>
+  <polyline points="60,390 80,390 80,370" fill="none" stroke="#4dff91" stroke-width="2" opacity="0.6"/>
+  <polyline points="740,390 720,390 720,370" fill="none" stroke="#4dff91" stroke-width="2" opacity="0.6"/>
+  <text x="80" y="88" font-family="Space Mono" font-size="10" fill="#4dff91" letter-spacing="0.2em" opacity="0.8">AUTONOMOUS VEHICLES</text>
+  <rect x="200" y="130" width="400" height="220" rx="4" fill="#142616" stroke="#4dff91" stroke-width="0.5" opacity="0.3"/>
+  <rect x="260" y="160" width="12" height="12" fill="#4dff91" opacity="0.6"/>
+  <rect x="274" y="148" width="10" height="10" fill="#b8ff6e" opacity="0.5"/>
+  <rect x="310" y="175" width="14" height="8" fill="#4dff91" opacity="0.4"/>
+  <rect x="460" y="200" width="10" height="14" fill="#4dff91" opacity="0.5"/>
+  <rect x="500" y="185" width="12" height="10" fill="#b8ff6e" opacity="0.45"/>
+  <rect x="380" y="260" width="10" height="10" fill="#4dff91" opacity="0.55"/>
+  <rect x="340" y="280" width="14" height="8" fill="#b8ff6e" opacity="0.4"/>
+  <text x="400" y="240" font-family="Syne" font-size="32" font-weight="800" fill="#4dff91" text-anchor="middle" opacity="0.12">EC ATTACK</text>
+  <text x="400" y="380" font-family="Space Mono" font-size="10" fill="#7a8475" text-anchor="middle" letter-spacing="0.1em">EDGE CAMOUFLAGE RESEARCH</text>
+</svg>

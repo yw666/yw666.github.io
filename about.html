@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Edge Camouflage</title>
+  <meta name="description" content="About Edge Camouflage: our mission, team, MIT CSAIL partnership, and how to get in touch.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .mission-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .mission-block__quote {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text);
+      border-left: 2px solid var(--accent);
+      padding-left: 28px;
+      margin-bottom: 28px;
+    }
+    .mission-block__quote em { font-style:normal; color:var(--accent); }
+    .values-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .value-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:24px 28px; }
+    .value-item__icon { font-size:24px; margin-bottom:12px; }
+    .value-item__title { font-family:var(--font-display); font-weight:700; font-size:16px; margin-bottom:6px; }
+    .value-item__desc { font-size:13px; color:var(--muted); line-height:1.65; font-weight:300; }
+
+    /* MIT Partnership */
+    .mit-block {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .mit-logo-area {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 4/3;
+      position: relative;
+      overflow: hidden;
+    }
+    .mit-text-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 64px;
+      letter-spacing: -0.04em;
+      color: var(--border);
+      text-align: center;
+      line-height: 1;
+    }
+    .mit-text-logo span { color: var(--accent); }
+    .mit-text-sub { font-family:var(--font-mono); font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); text-align:center; margin-top:12px; }
+    .affil-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin: 4px;
+    }
+    .affil-pill .dot-g { width:6px; height:6px; background:var(--accent); border-radius:50%; }
+
+    /* Team */
+    .person-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; transition:border-color var(--transition-fast), transform var(--transition-fast); }
+    .person-card:hover { border-color:var(--accent); transform:translateY(-4px); }
+    .person-card__avatar {
+      width:100%; aspect-ratio:1/1;
+      background: linear-gradient(135deg, #1a2e1c 0%, #0d1a0f 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-display); font-weight:800; font-size:36px; color:var(--accent);
+      position: relative; overflow:hidden;
+    }
+    /* Camo pattern overlay on avatar */
+    .person-card__avatar::after {
+      content:'';
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(77,255,145,0.05) 0%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(184,255,110,0.04) 0%, transparent 60%);
+    }
+    .person-card__avatar img { width:100%; height:100%; object-fit:cover; }
+    .person-card__body { padding:20px; }
+    .person-card__name { font-family:var(--font-display); font-weight:700; font-size:16px; margin-bottom:4px; }
+    .person-card__role { font-family:var(--font-mono); font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
+    .person-card__affil { font-size:12px; color:var(--muted); }
+
+    /* Contact form */
+    .contact-form { display:flex; flex-direction:column; gap:16px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-field label { display:block; font-family:var(--font-mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width:100%;
+      background:#070a08;
+      border:1px solid var(--border);
+      border-radius:var(--radius-sm);
+      color:var(--text);
+      font-family:var(--font-body);
+      font-size:14px;
+      padding:12px 16px;
+      outline:none;
+      transition:border-color var(--transition-fast);
+      resize:vertical;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus { border-color:var(--accent); }
+    .form-field select { cursor:none; }
+    .form-field select option { background:#0a0c0b; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV injected -->
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero__content">
+      <div class="page-hero__badge">Our Story</div>
+      <h1 class="page-hero__title"><em>About</em> Edge<br>Camouflage</h1>
+      <p class="page-hero__desc">A research lab and open-source platform born out of MIT CSAIL. We study how AI systems can be fooled — so they can be made more robust.</p>
+    </div>
+  </div>
+
+  <!-- MISSION -->
+  <section class="section section--dark" id="mission">
+    <div class="section-label">Mission</div>
+    <div class="mission-block">
+      <div>
+        <div class="mission-block__quote">
+          We believe <em>understanding attack</em> is prerequisite to building defense.
+        </div>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:20px;">Edge Camouflage was founded on the premise that the adversarial ML community needs shared, open infrastructure — standardized attacks, reproducible benchmarks, and tools that work the same way in a MIT lab as in a production AI safety team.</p>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;">We are deeply committed to responsible disclosure, dual-use research ethics, and keeping our core tools freely available to academic researchers worldwide.</p>
+      </div>
+
+      <div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:20px;margin-bottom:20px;">Our values</h3>
+        <div class="values-grid">
+          <div class="value-item reveal">
+            <div class="value-item__icon">🔓</div>
+            <div class="value-item__title">Open Science</div>
+            <div class="value-item__desc">All code, datasets, and findings are publicly available. Reproducibility is non-negotiable.</div>
+          </div>
+          <div class="value-item reveal">
+            <div class="value-item__icon">⚖️</div>
+            <div class="value-item__title">Responsible Research</div>
+            <div class="value-item__desc">We follow coordinated disclosure and engage with affected parties before publishing attack findings.</div>
+          </div>
+          <div class="value-item reveal">
+            <div class="value-item__icon">🌍</div>
+            <div class="value-item__title">Global Access</div>
+            <div class="value-item__desc">Free academic tier, multilingual docs, and an active community that spans every timezone.</div>
+          </div>
+          <div class="value-item reveal">
+            <div class="value-item__icon">🎯</div>
+            <div class="value-item__title">Rigor First</div>
+            <div class="value-item__desc">Every benchmark and result goes through internal replication before publication or release.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section section--surface" id="history">
+    <div class="section-label">History</div>
+    <h2 class="section-title">From MIT lab<br>to global platform</h2>
+
+    <div style="max-width:640px;">
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-item__date">2021</div>
+          <div class="timeline-item__title">Founded at MIT CSAIL</div>
+          <div class="timeline-item__desc">Edge Camouflage begins as a graduate research group studying evasion attacks on medical imaging models. First paper accepted to ICLR 2022.</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__date">2022</div>
+          <div class="timeline-item__title">EC-Attack Library v1.0 open-sourced</div>
+          <div class="timeline-item__desc">The first open release of EC tooling, supporting PyTorch models with FGSM and PGD. 1,000 GitHub stars in the first week.</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__date">2023</div>
+          <div class="timeline-item__title">DARPA GARD partnership announced</div>
+          <div class="timeline-item__desc">Edge Camouflage joins the DARPA Guaranteeing AI Robustness against Deception (GARD) program. Physical-world attack research begins.</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__date">2024</div>
+          <div class="timeline-item__title">ICLR Spotlight &amp; platform launch</div>
+          <div class="timeline-item__desc">Flagship EC paper receives ICLR 2024 Spotlight. Platform launches with REST API, Python/JS SDKs, and MIT co-certified training programs.</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__date">2025</div>
+          <div class="timeline-item__title">12K researchers, 6 languages</div>
+          <div class="timeline-item__desc">Community crosses 12,000 members. LLM red-teaming track launches. EC Researcher Hub goes live as a unified open resource portal.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MIT PARTNERSHIP -->
+  <section class="section section--dark" id="mit">
+    <div class="section-label">Partnership</div>
+    <h2 class="section-title">Rooted at MIT</h2>
+    <div class="mit-block">
+      <div>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:24px;">Edge Camouflage was founded within MIT's Computer Science and Artificial Intelligence Laboratory (CSAIL). Our work is conducted in collaboration with faculty advisors, PhD students, and postdoctoral researchers at MIT across multiple research groups.</p>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:32px;">EC certification programs are co-developed with MIT and recognized for academic credit in MIT's 6.S978 (Adversarial Machine Learning) course. We maintain formal affiliations with MIT Lincoln Laboratory and the MIT AI Policy Forum.</p>
+        <h4 style="font-family:var(--font-display);font-weight:700;font-size:18px;margin-bottom:16px;">Formal affiliations</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;">
+          <span class="affil-pill"><span class="dot-g"></span>MIT CSAIL</span>
+          <span class="affil-pill"><span class="dot-g"></span>MIT Lincoln Laboratory</span>
+          <span class="affil-pill"><span class="dot-g"></span>DARPA GARD</span>
+          <span class="affil-pill"><span class="dot-g"></span>MIT AI Policy Forum</span>
+          <span class="affil-pill"><span class="dot-g"></span>NSF Trusted AI Program</span>
+        </div>
+      </div>
+      <div class="mit-logo-area reveal">
+        <!-- Replace with: <img src="../images/mit-campus.jpg" alt="MIT CSAIL Building"> -->
+        <div style="text-align:center;">
+          <div class="mit-text-logo">MI<span>T</span></div>
+          <div class="mit-text-sub">CSAIL · Cambridge MA</div>
+          <div style="margin-top:20px;font-family:var(--font-mono);font-size:9px;color:var(--muted);letter-spacing:0.12em;">Replace with images/mit-campus.jpg</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section section--surface" id="team">
+    <div class="section-label">People</div>
+    <h2 class="section-title">The EC team</h2>
+    <p class="section-desc">A cross-disciplinary group of researchers, engineers, and security practitioners based primarily at MIT CSAIL.</p>
+
+    <div class="people-grid">
+      <!-- Replace avatar initials with <img src="../images/team-photo-reyes.jpg" alt="..."> -->
+      <div class="person-card reveal">
+        <div class="person-card__avatar">AR</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Dr. Ana Reyes</div>
+          <div class="person-card__role">Co-Founder &amp; Director</div>
+          <div class="person-card__affil">MIT CSAIL · Adversarial Vision</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">JK</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Dr. Junwoo Kim</div>
+          <div class="person-card__role">Co-Founder &amp; CTO</div>
+          <div class="person-card__affil">MIT CSAIL · Black-Box Attacks</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">MP</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Meera Patel</div>
+          <div class="person-card__role">Research Lead, Physical</div>
+          <div class="person-card__affil">MIT CSAIL · AV Systems</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">ST</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Santiago Torres</div>
+          <div class="person-card__role">Research Lead, LLMs</div>
+          <div class="person-card__affil">MIT CSAIL · Language Models</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">LZ</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Dr. Lily Zhang</div>
+          <div class="person-card__role">Head of Defense Research</div>
+          <div class="person-card__affil">MIT CSAIL &amp; ETH Zurich</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">DC</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Devon Chen</div>
+          <div class="person-card__role">Platform Engineering Lead</div>
+          <div class="person-card__affil">EC Platform Team</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">YT</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Yuki Tanaka</div>
+          <div class="person-card__role">Research Engineer</div>
+          <div class="person-card__affil">MIT CSAIL · Autonomy</div>
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-card__avatar">FM</div>
+        <div class="person-card__body">
+          <div class="person-card__name">Dr. Felix Müller</div>
+          <div class="person-card__role">Visiting Researcher</div>
+          <div class="person-card__affil">ETH Zurich · Certified Robustness</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <a href="#contact" class="btn btn--ghost">We're hiring → see open roles</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section--dark" id="contact">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
+      <div>
+        <div class="section-label">Get in Touch</div>
+        <h2 class="section-title">Contact us</h2>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:32px;">Whether you're requesting academic access, exploring enterprise plans, or proposing a research collaboration — we read every message.</p>
+
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">General inquiries</div>
+            <a href="/cdn-cgi/l/email-protection#670f020b0b08270203000204060a08490a0e1349020312" style="font-size:15px;color:var(--accent);"><span class="__cf_email__" data-cfemail="4129242d2d2e012425262422202c2e6f2c28356f242534">[email&#160;protected]</span></a>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Research collaboration</div>
+            <a href="/cdn-cgi/l/email-protection#e7958294828695848fa78283808284868a88c98a8e93c9828392" style="font-size:15px;color:var(--accent);"><span class="__cf_email__" data-cfemail="98eafdebfdf9eafbf0d8fdfcfffdfbf9f5f7b6f5f1ecb6fdfced">[email&#160;protected]</span></a>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Security / disclosure</div>
+            <a href="/cdn-cgi/l/email-protection#fd8e989e888f948984bd98999a989e9c9092d3909489d3989988" style="font-size:15px;color:var(--accent);"><span class="__cf_email__" data-cfemail="9fecfafceaedf6ebe6dffafbf8fafcfef2f0b1f2f6ebb1fafbea">[email&#160;protected]</span></a>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Physical address</div>
+            <p style="font-size:14px;color:var(--muted);line-height:1.6;font-weight:300;">MIT CSAIL<br>32 Vassar St, Building 32<br>Cambridge, MA 02139</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label>First name</label>
+              <input type="text" placeholder="Ana">
+            </div>
+            <div class="form-field">
+              <label>Last name</label>
+              <input type="text" placeholder="Reyes">
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" placeholder="you@university.edu">
+          </div>
+          <div class="form-field">
+            <label>Institution / Organization</label>
+            <input type="text" placeholder="MIT CSAIL">
+          </div>
+          <div class="form-field">
+            <label>Inquiry type</label>
+            <select>
+              <option value="">Select one…</option>
+              <option>Academic access request</option>
+              <option>Enterprise plan inquiry</option>
+              <option>Research collaboration</option>
+              <option>Press / media</option>
+              <option>Security disclosure</option>
+              <option>General question</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Message</label>
+            <textarea rows="5" placeholder="Tell us about your research or use case…"></textarea>
+          </div>
+          <div>
+            <button class="btn btn--primary" type="submit" onclick="return false;">Send Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ethics -->
+  <section class="section section--surface" id="ethics">
+    <div class="section-label">Ethics</div>
+    <h2 class="section-title">Our ethics policy</h2>
+    <p class="section-desc">Adversarial research is inherently dual-use. We take our responsibility seriously.</p>
+
+    <div class="cards-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+      <div class="card reveal">
+        <div class="card__icon">🔏</div>
+        <div class="card__tag">Disclosure</div>
+        <div class="card__title">Coordinated Disclosure</div>
+        <div class="card__desc">We follow a strict 90-day coordinated disclosure policy for any attack that targets specific deployed systems. Affected parties are notified before public release.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card__icon">🚫</div>
+        <div class="card__tag">Access Control</div>
+        <div class="card__title">Verified Research Access</div>
+        <div class="card__desc">The most powerful EC tools require institutional verification. We manually review access requests to prevent misuse by non-research actors.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card__icon">📣</div>
+ 

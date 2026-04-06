@@ -1,0 +1,25 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#0a0c0b"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a2e27" stroke-width="0.5" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  <rect x="80" y="120" width="280" height="180" rx="8" fill="#111410" stroke="#2a2e27" stroke-width="1.5"/>
+  <rect x="94" y="134" width="252" height="152" rx="4" fill="#0a0c0b"/>
+  <rect x="108" y="152" width="180" height="10" rx="2" fill="#1a2e1c" opacity="0.8"/>
+  <rect x="108" y="170" width="220" height="10" rx="2" fill="#1a2e1c" opacity="0.6"/>
+  <rect x="108" y="188" width="140" height="10" rx="2" fill="#4dff91" opacity="0.5"/>
+  <rect x="108" y="206" width="200" height="10" rx="2" fill="#1a2e1c" opacity="0.5"/>
+  <rect x="108" y="252" width="60" height="20" rx="10" fill="#4dff91" opacity="0.15" stroke="#4dff91" stroke-width="1"/>
+  <text x="138" y="266" font-family="Space Mono" font-size="9" fill="#4dff91" text-anchor="middle">RUN</text>
+  <rect x="420" y="100" width="300" height="200" rx="8" fill="#111410" stroke="#4dff91" stroke-width="1" opacity="0.6"/>
+  <rect x="434" y="114" width="272" height="172" rx="4" fill="#0a0c0b"/>
+  <polyline points="450,260 490,220 530,240 570,180 610,195 650,160 685,170" stroke="#4dff91" stroke-width="2" fill="none" opacity="0.8"/>
+  <polyline points="450,260 490,240 530,255 570,230 610,245 650,220 685,235" stroke="#b8ff6e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <rect x="40" y="320" width="720" height="8" rx="2" fill="#2a2e27"/>
+  <ellipse cx="220" cy="300" rx="22" ry="22" fill="#1a2e1c" stroke="#4dff91" stroke-width="1" opacity="0.6"/>
+  <ellipse cx="580" cy="295" rx="22" ry="22" fill="#1a2e1c" stroke="#4dff91" stroke-width="1" opacity="0.5"/>
+  <text x="400" y="420" font-family="Syne" font-size="13" fill="#4dff91" text-anchor="middle" opacity="0.5" letter-spacing="0.2em">EDGE CAMOUFLAGE LAB · MIT CSAIL</text>
+</svg>
